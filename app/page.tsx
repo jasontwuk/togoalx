@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { kalam } from "./utilities/fonts";
+import { Calendar } from "./components/calendar";
 
 export default function Home() {
   return (
@@ -22,6 +23,8 @@ export default function Home() {
         <span className="font-bold">every day</span> and{" "}
         <span className="font-bold">every month</span>.
       </p>
+
+      <Calendar />
     </main>
   );
 }
