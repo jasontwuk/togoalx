@@ -15,7 +15,9 @@ export const Footer = () => {
         <Link
           target="blank"
           href={"https://github.com/jasontwuk"}
-          className={clsx("hover:text-indigo-500 duration-200 font-bold")}
+          className={clsx(
+            "text-indigo-600 hover:text-indigo-400 font-bold duration-200"
+          )}
         >
           Jason Liao
         </Link>
