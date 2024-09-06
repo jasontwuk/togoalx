@@ -34,7 +34,16 @@ const daysList: daysType = {
 const daysArr = Object.keys(daysList);
 // console.log({ daysArr });
 
-const goalList = ["💰", "💪", "🥦", "🧘", "🧹"];
+type goalType = { [key: string]: { emoji: string; goal: string } };
+const goalList: goalType = {
+  money: { emoji: "💰", goal: "save money" },
+  exercise: { emoji: "💪", goal: "do exercise" },
+  veg: { emoji: "🥦", goal: "eat more veg" },
+  meditation: { emoji: "🧘", goal: "do meditation" },
+  cleaning: { emoji: "🧹", goal: "do cleaning" },
+};
+const goalArr = Object.keys(goalList);
+// console.log({ goalArr });
 
 export const Calendar = () => {
   const now = new Date();
@@ -89,18 +98,18 @@ export const Calendar = () => {
   // console.log({ sevenBlockRows });
 
   const lastRowDateBlockNum = (daysInMonth - firstRowDays) % 7;
-  console.log({ lastRowDateBlockNum });
+  // console.log({ lastRowDateBlockNum });
 
   const getLastRowBlankBlocks = (n: number) => {
     return 7 - n;
   };
 
   const lastRowBlankBlockNum = getLastRowBlankBlocks(lastRowDateBlockNum);
-  console.log({ lastRowBlankBlockNum });
+  // console.log({ lastRowBlankBlockNum });
 
   return (
     <div className="flex flex-col overflow-hidden gap-2 py-4 sm:py-6 md:py-10 w-full">
-      <div className="grid grid-cols-7 gap-2 text-indigo-700 font-bold">
+      <div className="grid grid-cols-7 gap-2 text-indigo-700 font-bold text-center">
         {daysArr.map((day) => {
           return <p key={day}>{daysList[day]}</p>;
         })}
@@ -119,7 +128,11 @@ export const Calendar = () => {
           >
             <p>{i + 1}</p>
             <div className="text-center">
-              {demoData[i + 1].map((x: number) => goalList[x])}
+              {demoData[i + 1].map((x: number) => (
+                <span key={x} role="img" aria-label={goalList[goalArr[x]].goal}>
+                  {goalList[goalArr[x]].emoji}
+                </span>
+              ))}
             </div>
           </div>
         ))}
@@ -142,7 +155,15 @@ export const Calendar = () => {
                 >
                   <p>{dateNum}</p>
                   <div className="text-center">
-                    {demoData[dateNum].map((y: number) => goalList[y])}
+                    {demoData[dateNum].map((y: number) => (
+                      <span
+                        key={y}
+                        role="img"
+                        aria-label={goalList[goalArr[y]].goal}
+                      >
+                        {goalList[goalArr[y]].emoji}
+                      </span>
+                    ))}
                   </div>
                 </div>
               );
@@ -164,7 +185,15 @@ export const Calendar = () => {
               >
                 <p>{dateNum}</p>
                 <div className="text-center">
-                  {demoData[dateNum].map((x: number) => goalList[x])}
+                  {demoData[dateNum].map((x: number) => (
+                    <span
+                      key={x}
+                      role="img"
+                      aria-label={goalList[goalArr[x]].goal}
+                    >
+                      {goalList[goalArr[x]].emoji}
+                    </span>
+                  ))}
                 </div>
               </div>
             );
