@@ -60,6 +60,7 @@ export const Calendar = () => {
     return monthsArr.indexOf(month);
   };
 
+  // *** Note: for the first row of the calendar
   const firstDateOfMonth = new Date(
     selectedYear,
     getSelectedMonthIndex(selectedMonth),
@@ -79,10 +80,12 @@ export const Calendar = () => {
     }
   };
 
-  const firstRowBlankBlockNum = getFirstRowBlankBlocks(firstDayOfMonth);
+  const firstRowBlankBlockSum = getFirstRowBlankBlocks(firstDayOfMonth);
   // console.log("firstRowBlankBlocks: ", firstRowBlankBlocks);
 
-  const firstRowDays = 7 - firstRowBlankBlockNum;
+  // *** Note: for middle rows of the calendar
+  const firstRowDateBlockSum = 7 - firstRowBlankBlockSum;
+  // console.log({ firstRowDateBlockSum });
 
   const lastDateOfMonth = new Date(
     selectedYear,
@@ -94,17 +97,14 @@ export const Calendar = () => {
   const daysInMonth = lastDateOfMonth.getDate();
   // console.log({ daysInMonth });
 
-  const sevenBlockRows = Math.floor((daysInMonth - firstRowDays) / 7);
+  const sevenBlockRows = Math.floor((daysInMonth - firstRowDateBlockSum) / 7);
   // console.log({ sevenBlockRows });
 
-  const lastRowDateBlockNum = (daysInMonth - firstRowDays) % 7;
+  // *** Note: for the last row of the calendar
+  const lastRowDateBlockSum = (daysInMonth - firstRowDateBlockSum) % 7;
   // console.log({ lastRowDateBlockNum });
 
-  const getLastRowBlankBlocks = (n: number) => {
-    return 7 - n;
-  };
-
-  const lastRowBlankBlockNum = getLastRowBlankBlocks(lastRowDateBlockNum);
+  const lastRowBlankBlockSum = 7 - lastRowDateBlockSum;
   // console.log({ lastRowBlankBlockNum });
 
   return (
@@ -117,11 +117,11 @@ export const Calendar = () => {
 
       {/* Note: first row of the calendar */}
       <div className="grid grid-cols-7 gap-2">
-        {[...Array(firstRowBlankBlockNum)].map((val, i: number) => (
+        {[...Array(firstRowBlankBlockSum)].map((val, i: number) => (
           <div key={i} className="bg-yellow-50 rounded-lg"></div>
         ))}
 
-        {[...Array(firstRowDays)].map((val, i: number) => (
+        {[...Array(firstRowDateBlockSum)].map((val, i: number) => (
           <div
             key={i}
             className="bg-white border-yellow-500 border border-solid p-2 flex items-center gap-2 sm:justify-between rounded-lg flex-col sm:flex-row"
@@ -138,7 +138,7 @@ export const Calendar = () => {
         ))}
       </div>
 
-      {/* Note: all seven block rows of the calendar */}
+      {/* Note: middle rows of the calendar */}
       {Object.keys([...Array(sevenBlockRows)]).map((val, i: number) => {
         const rowBaseNum = 7 * i;
 
@@ -146,7 +146,7 @@ export const Calendar = () => {
           <div key={i} className="grid grid-cols-7 gap-2">
             {Object.keys([...Array(7)]).map((val, x: number) => {
               const goalIndex = x + 1;
-              const dateNum = rowBaseNum + goalIndex + firstRowDays;
+              const dateNum = rowBaseNum + goalIndex + firstRowDateBlockSum;
 
               return (
                 <div
@@ -173,10 +173,10 @@ export const Calendar = () => {
       })}
 
       {/* Note: last row of the calendar */}
-      {firstRowBlankBlockNum && (
+      {lastRowDateBlockSum && (
         <div className="grid grid-cols-7 gap-2">
-          {[...Array(lastRowDateBlockNum)].map((val, i: number) => {
-            const dateNum = firstRowDays + sevenBlockRows * 7 + i + 1;
+          {[...Array(lastRowDateBlockSum)].map((val, i: number) => {
+            const dateNum = firstRowDateBlockSum + sevenBlockRows * 7 + i + 1;
 
             return (
               <div
@@ -199,7 +199,7 @@ export const Calendar = () => {
             );
           })}
 
-          {[...Array(firstRowBlankBlockNum)].map((val, i: number) => (
+          {[...Array(lastRowBlankBlockSum)].map((val, i: number) => (
             <div key={i} className="bg-yellow-50 rounded-lg"></div>
           ))}
         </div>
