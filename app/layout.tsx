@@ -4,6 +4,7 @@ import "./utilities/globals.css";
 import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 import { Head } from "./head";
+import { AuthProvider } from "./utilities/authContext";
 
 export const metadata: Metadata = {
   title: "ToGoalx",
@@ -18,15 +19,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head />
-      <body
-        className={`${nunito.className} w-full max-w-screen-lg mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800 bg-yellow-100`}
-      >
-        <Header />
 
-        {children}
+      <AuthProvider>
+        <body
+          className={`${nunito.className} w-full max-w-screen-lg mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800 bg-yellow-100`}
+        >
+          <Header />
 
-        <Footer />
-      </body>
+          {children}
+
+          <Footer />
+        </body>
+      </AuthProvider>
     </html>
   );
 }
