@@ -10,7 +10,7 @@ import {
   signOut,
   User,
 } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 // *** Note: create auth context
 const AuthContext = createContext<any>({} as any);
@@ -38,8 +38,26 @@ export function AuthProvider(props: ContainerProps) {
   const [loading, setLoading] = useState<boolean>(true);
 
   // *** Note: auth handlers
-  function signup(email: string, password: string) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signup(username: string, email: string, password: string) {
+    try {
+      // *** Note: create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      // *** Note: add the username to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        username: username,
+      });
+
+      console.log("User signed up and username saved!");
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
   }
 
   function login(email: string, password: string) {
