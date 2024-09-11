@@ -3,7 +3,7 @@
 import React from "react";
 
 import Link from "next/link";
-import { Button } from "./button";
+import { Button } from "./Button";
 import { useAuth } from "../utilities/authContext";
 
 export const CallToAction = () => {

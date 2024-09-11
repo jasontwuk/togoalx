@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { kalam } from "../utilities/fonts";
 import { useAuth } from "../utilities/authContext";
-import Logout from "./logout";
+import Logout from "./Logout";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";

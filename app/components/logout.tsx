@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Button } from "./button";
 import { useAuth } from "../utilities/authContext";
+import { Button } from "./Button";
 
 function Logout() {
   const { logout } = useAuth();

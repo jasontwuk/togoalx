@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
 import { useAuth } from "../utilities/authContext";
 import Link from "next/link";
-import { Button } from "./button";
+import { Button } from "./Button";
 
 type LoginOrSignupProps = {
   isForLogin: boolean;
