@@ -12,7 +12,10 @@ export const CallToAction = () => {
   return (
     <>
       {currentUser && (
-        <Link href={"/dashboard"} className="w-full mx-auto max-w-[50%]">
+        <Link
+          href={"/dashboard"}
+          className="w-full mx-auto max-w-[70%] md:max-w-[50%]"
+        >
           <Button full dark className="p-2">
             Go to dashboard
           </Button>
