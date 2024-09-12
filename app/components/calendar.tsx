@@ -1,7 +1,6 @@
 "use client";
 
-import { log } from "console";
-import React, { Key, useState } from "react";
+import React, { useState } from "react";
 import { demoData } from "../utilities/demo";
 
 type monthsType = { [key: string]: string };
@@ -64,7 +63,7 @@ export const Calendar = () => {
   const firstDateOfMonth = new Date(
     selectedYear,
     getSelectedMonthIndex(selectedMonth),
-    1
+    1,
   );
   // console.log("getSelectedMonthIndex:", getSelectedMonthIndex("September"));
   // console.log({ firstDateOfMonth });
@@ -90,7 +89,7 @@ export const Calendar = () => {
   const lastDateOfMonth = new Date(
     selectedYear,
     getSelectedMonthIndex(selectedMonth) + 1,
-    0
+    0,
   );
   // console.log({ lastDateOfMonth });
 
@@ -108,26 +107,29 @@ export const Calendar = () => {
   // console.log({ lastRowBlankBlockNum });
 
   return (
-    <div className="flex flex-col overflow-hidden gap-2 py-4 sm:py-6 md:py-10 w-full">
-      <div className="grid grid-cols-7 gap-2 text-indigo-700 font-bold text-center">
+    <div className="flex w-full flex-col gap-2 overflow-hidden py-4 sm:py-6 md:py-10">
+      <div className="grid grid-cols-7 gap-2 text-center font-bold text-indigo-700">
         {daysArr.map((day) => {
-          return <p key={day}>{daysList[day]}</p>;
+          return <h2 key={day}>{daysList[day]}</h2>;
         })}
       </div>
 
       {/* Note: first row of the calendar */}
       <div className="grid grid-cols-7 gap-2">
         {[...Array(firstRowBlankBlockSum)].map((val, i: number) => (
-          <div key={i} className="bg-yellow-50 rounded-lg"></div>
+          <div key={i} className="rounded-lg bg-yellow-50"></div>
         ))}
 
         {[...Array(firstRowDateBlockSum)].map((val, i: number) => (
           <div
             key={i}
-            className="bg-white border-yellow-500 border border-solid p-2 flex items-center gap-2 sm:justify-between rounded-lg flex-col sm:flex-row"
+            className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
           >
-            <p>{i + 1}</p>
-            <div className="text-center">
+            <h3 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+              {i + 1}
+            </h3>
+
+            <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
               {demoData[i + 1].map((x: number) => (
                 <span key={x} role="img" aria-label={goalList[goalArr[x]].goal}>
                   {goalList[goalArr[x]].emoji}
@@ -151,10 +153,13 @@ export const Calendar = () => {
               return (
                 <div
                   key={goalIndex}
-                  className="bg-white border-yellow-500 border border-solid p-2 flex items-center gap-2 sm:justify-between rounded-lg flex-col sm:flex-row"
+                  className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
                 >
-                  <p>{dateNum}</p>
-                  <div className="text-center">
+                  <h3 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                    {dateNum}
+                  </h3>
+
+                  <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
                     {demoData[dateNum].map((y: number) => (
                       <span
                         key={y}
@@ -181,10 +186,13 @@ export const Calendar = () => {
             return (
               <div
                 key={i}
-                className="bg-white border-yellow-500 border border-solid p-2 flex items-center gap-2 sm:justify-between rounded-lg flex-col sm:flex-row"
+                className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
               >
-                <p>{dateNum}</p>
-                <div className="text-center">
+                <h3 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                  {dateNum}
+                </h3>
+
+                <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
                   {demoData[dateNum].map((x: number) => (
                     <span
                       key={x}
@@ -200,10 +208,28 @@ export const Calendar = () => {
           })}
 
           {[...Array(lastRowBlankBlockSum)].map((val, i: number) => (
-            <div key={i} className="bg-yellow-50 rounded-lg"></div>
+            <div key={i} className="rounded-lg bg-yellow-50"></div>
           ))}
         </div>
       )}
+
+      <div className="flex flex-col overflow-hidden rounded-lg bg-white text-center md:grid md:grid-cols-7 md:gap-2">
+        <div className="flex items-center justify-center bg-yellow-200 py-2 md:col-span-1">
+          <h4 className="font-bold text-yellow-600">Goals:</h4>
+        </div>
+
+        <div className="md:col-span-6">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 p-2 md:justify-start">
+            {goalArr.map((goal) => {
+              return (
+                <p key={goal} className="text-gray-500">
+                  {goalList[goal].emoji} {goalList[goal].goal}
+                </p>
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
