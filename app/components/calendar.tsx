@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { demoData } from "../utilities/demo";
 
 type monthsType = { [key: string]: string };
 const months: monthsType = {
@@ -44,7 +43,14 @@ const goalList: goalType = {
 const goalArr = Object.keys(goalList);
 // console.log({ goalArr });
 
-export const Calendar = () => {
+type CalendarProps = {
+  data: {
+    [key: string]: number[];
+  };
+};
+export const Calendar = (props: CalendarProps) => {
+  const { data } = props;
+
   const now = new Date();
   const currMonthIndex = now.getMonth();
   // console.log({ currMonthIndex });
@@ -130,7 +136,7 @@ export const Calendar = () => {
             </h3>
 
             <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-              {demoData[i + 1].map((x: number) => (
+              {data[i + 1].map((x: number) => (
                 <span key={x} role="img" aria-label={goalList[goalArr[x]].goal}>
                   {goalList[goalArr[x]].emoji}
                 </span>
@@ -160,7 +166,7 @@ export const Calendar = () => {
                   </h3>
 
                   <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-                    {demoData[dateNum].map((y: number) => (
+                    {data[dateNum].map((y: number) => (
                       <span
                         key={y}
                         role="img"
@@ -178,7 +184,8 @@ export const Calendar = () => {
       })}
 
       {/* Note: last row of the calendar */}
-      {lastRowDateBlockSum && (
+      {/* Note: if lastRowDateBlockSum is 0, don't show the last row */}
+      {!!lastRowDateBlockSum && (
         <div className="grid grid-cols-7 gap-2">
           {[...Array(lastRowDateBlockSum)].map((val, i: number) => {
             const dateNum = firstRowDateBlockSum + sevenBlockRows * 7 + i + 1;
@@ -193,7 +200,7 @@ export const Calendar = () => {
                 </h3>
 
                 <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-                  {demoData[dateNum].map((x: number) => (
+                  {data[dateNum].map((x: number) => (
                     <span
                       key={x}
                       role="img"
