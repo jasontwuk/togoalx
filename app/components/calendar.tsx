@@ -52,14 +52,20 @@ export const Calendar = (props: CalendarProps) => {
   const { data } = props;
 
   const now = new Date();
+  const currentYear = now.getFullYear();
+
   const currMonthIndex = now.getMonth();
   // console.log({ currMonthIndex });
+  const currentMonth = monthsArr[currMonthIndex];
 
   const [selectedYear, setSelectYear] = useState(now.getFullYear());
   // console.log({ selectedYear });
 
   const [selectedMonth, setSelectMonth] = useState(monthsArr[currMonthIndex]);
   // console.log({ selectedMonth });
+
+  const selectedMonthIndex = monthsArr.indexOf(selectedMonth);
+  // console.log({ selectedMonthIndex });
 
   const getSelectedMonthIndex = (month: string) => {
     return monthsArr.indexOf(month);
@@ -112,11 +118,83 @@ export const Calendar = (props: CalendarProps) => {
   const lastRowBlankBlockSum = 7 - lastRowDateBlockSum;
   // console.log({ lastRowBlankBlockNum });
 
+  const handleChangeMonth = (val: number) => {
+    if (selectedMonthIndex + val < 0) {
+      // *** decrement the year
+      setSelectYear((curr) => curr - 1);
+      // *** set month value = 11 (December)
+      setSelectMonth(monthsArr[monthsArr.length - 1]);
+    } else if (selectedMonthIndex + val > 11) {
+      // *** increment the year
+      setSelectYear((curr) => curr + 1);
+      // *** set month value = 0 (January)
+      setSelectMonth(monthsArr[0]);
+    } else {
+      setSelectMonth(monthsArr[selectedMonthIndex + val]);
+    }
+  };
+
+  const handleBackToCurrentMonth = () => {
+    setSelectYear(currentYear);
+    setSelectMonth(currentMonth);
+  };
+
   return (
     <div className="flex w-full flex-col gap-2 overflow-hidden py-4 sm:py-6 md:py-10">
+      <div className="flex items-center justify-center">
+        <button
+          onClick={() => {
+            handleChangeMonth(-1);
+          }}
+          className="mr-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
+          aria-labelledby="previous-month-label"
+        >
+          <i className="fa-solid fa-circle-chevron-left"></i>
+          <span className="visually-hidden" id="previous-month-label">
+            Previous month
+          </span>
+        </button>
+
+        <div className="flex items-center justify-center gap-2">
+          <h2>
+            {selectedMonth} {selectedYear}
+          </h2>
+
+          {/* Note: hide the "back to current month" button when in the current month */}
+          {(currentYear !== selectedYear || currentMonth !== selectedMonth) && (
+            <button
+              onClick={handleBackToCurrentMonth}
+              className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-400 text-xl text-white duration-200 hover:opacity-60"
+              aria-labelledby="back-to-current-month-label"
+            >
+              <i className="fa-solid fa-arrow-rotate-right text-sm"></i>
+              <span
+                className="visually-hidden"
+                id="back-to-current-month-label"
+              >
+                Back to current month
+              </span>
+            </button>
+          )}
+        </div>
+
+        <button
+          onClick={() => {
+            handleChangeMonth(1);
+          }}
+          className="ml-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
+          aria-labelledby="next-month-label"
+        >
+          <i className="fa-solid fa-circle-chevron-right"></i>
+          <span className="visually-hidden" id="next-month-label">
+            Next month
+          </span>
+        </button>
+      </div>
+
       <div className="grid grid-cols-7 gap-2 text-center font-bold text-indigo-700">
         {daysArr.map((day) => {
-          return <h2 key={day}>{daysList[day]}</h2>;
+          return <h3 key={day}>{daysList[day]}</h3>;
         })}
       </div>
 
@@ -131,9 +209,9 @@ export const Calendar = (props: CalendarProps) => {
             key={i}
             className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
           >
-            <h3 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+            <h4 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
               {i + 1}
-            </h3>
+            </h4>
 
             <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
               {data[i + 1].map((x: number) => (
@@ -161,9 +239,9 @@ export const Calendar = (props: CalendarProps) => {
                   key={goalIndex}
                   className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
                 >
-                  <h3 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                  <h4 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
                     {dateNum}
-                  </h3>
+                  </h4>
 
                   <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
                     {data[dateNum].map((y: number) => (
@@ -195,9 +273,9 @@ export const Calendar = (props: CalendarProps) => {
                 key={i}
                 className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
               >
-                <h3 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                <h4 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
                   {dateNum}
-                </h3>
+                </h4>
 
                 <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
                   {data[dateNum].map((x: number) => (
@@ -222,7 +300,7 @@ export const Calendar = (props: CalendarProps) => {
 
       <div className="flex flex-col overflow-hidden rounded-lg bg-white text-center md:grid md:grid-cols-7 md:gap-2">
         <div className="flex items-center justify-center bg-yellow-200 py-2 md:col-span-1">
-          <h4 className="font-bold text-yellow-600">Goals:</h4>
+          <h5 className="font-bold text-yellow-600">Goals:</h5>
         </div>
 
         <div className="md:col-span-6">
