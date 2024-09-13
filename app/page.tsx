@@ -2,16 +2,17 @@ import clsx from "clsx";
 import { kalam } from "./utilities/fonts";
 import { Calendar } from "./components/Calendar";
 import { CallToAction } from "./components/CallToAction";
+import { demoData } from "./utilities/demo";
 
 export default function Home() {
   return (
-    <main className="flex flex-col justify-between items-center p-4 sm:p-8 gap-4 mx-auto md:max-w-[90%]">
-      <h1 className="text-4xl sm:text-5xl md:text-6xl text-center text-indigo-900 font-bold">
+    <main className="mx-auto flex flex-col items-center justify-between gap-4 p-4 sm:p-8 md:max-w-[90%]">
+      <h1 className="text-center text-4xl font-bold text-indigo-900 sm:text-5xl md:text-6xl">
         Record the goals you achieve with{" "}
         <span
           className={clsx(
             kalam.className,
-            "bg-gradient-to-b from-indigo-300 to-indigo-900 inline-block text-transparent bg-clip-text"
+            "inline-block bg-gradient-to-b from-indigo-300 to-indigo-900 bg-clip-text text-transparent",
           )}
         >
           ToGoalx
@@ -19,7 +20,7 @@ export default function Home() {
         every day.
       </h1>
 
-      <p className="text-lg sm:text-xl md:text-2xl text-center w-full mx-auto max-w-[80%]">
+      <p className="mx-auto w-full max-w-[80%] text-center text-lg sm:text-xl md:text-2xl">
         Create your achievement record and see how much you have progressed on{" "}
         <span className="font-bold">every day</span> and{" "}
         <span className="font-bold">every month</span>.
@@ -27,7 +28,7 @@ export default function Home() {
 
       <CallToAction />
 
-      <Calendar />
+      <Calendar data={demoData} />
     </main>
   );
 }
