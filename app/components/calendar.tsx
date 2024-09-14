@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import ProgressDonutBar from "./ProgressDonutBar";
 
 type monthsType = { [key: string]: string };
 const months: monthsType = {
@@ -139,8 +140,72 @@ export const Calendar = (props: CalendarProps) => {
     setSelectMonth(currentMonth);
   };
 
+  interface Targets {
+    [key: string]: number;
+  }
+  const [targets, setTargets] = useState<Targets>({
+    money: 0,
+    exercise: 0,
+    veg: 0,
+    meditation: 0,
+    cleaning: 0,
+  });
+
+  interface Achievement {
+    [key: string]: number;
+  }
+  const [achievements, setAchievements] = useState<Achievement>({
+    money: 0,
+    exercise: 0,
+    veg: 0,
+    meditation: 0,
+    cleaning: 0,
+  });
+
+  // *** Note: update goal achievements
+  useEffect(() => {
+    const newAchievements: Achievement = {};
+
+    goalArr.map((goal: string) => {
+      let sum = 0;
+      const goalIndex = goalArr.findIndex((item: string) => item === goal);
+      // console.log({ goalIndex });
+      const dataLength = Object.keys(data).length;
+      // console.log({ dataLength });
+
+      [...Array(dataLength)].map((_, i) => {
+        // Note: the data for the first day of the month is stored under "1" (key name) in the month data object
+        data[i + 1].map((item) => {
+          if (item === goalIndex) {
+            sum++;
+          }
+        });
+      });
+      // console.log(goal, ": ", sum);
+
+      newAchievements[goal] = sum;
+    });
+
+    setAchievements(newAchievements);
+  }, [data]);
+
+  const getPercent = (sum: number, target: number) => {
+    if (sum === 0) {
+      return 0;
+    }
+
+    let percent = Math.floor(100 * (sum / target));
+
+    if (percent > 100) {
+      return 100;
+    }
+
+    return percent;
+  };
+
   return (
     <div className="flex w-full flex-col gap-2 overflow-hidden py-4 sm:py-6 md:py-10">
+      {/* Note: month/year and control buttons */}
       <div className="flex items-center justify-center">
         <button
           onClick={() => {
@@ -192,6 +257,7 @@ export const Calendar = (props: CalendarProps) => {
         </button>
       </div>
 
+      {/* Note: days */}
       <div className="grid grid-cols-7 gap-2 text-center font-bold text-indigo-700">
         {daysArr.map((day) => {
           return <h3 key={day}>{daysList[day]}</h3>;
@@ -200,11 +266,11 @@ export const Calendar = (props: CalendarProps) => {
 
       {/* Note: first row of the calendar */}
       <div className="grid grid-cols-7 gap-2">
-        {[...Array(firstRowBlankBlockSum)].map((val, i: number) => (
+        {[...Array(firstRowBlankBlockSum)].map((_, i: number) => (
           <div key={i} className="rounded-lg bg-yellow-50"></div>
         ))}
 
-        {[...Array(firstRowDateBlockSum)].map((val, i: number) => (
+        {[...Array(firstRowDateBlockSum)].map((_, i: number) => (
           <div
             key={i}
             className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
@@ -225,12 +291,12 @@ export const Calendar = (props: CalendarProps) => {
       </div>
 
       {/* Note: middle rows of the calendar */}
-      {Object.keys([...Array(sevenBlockRows)]).map((val, i: number) => {
+      {Object.keys([...Array(sevenBlockRows)]).map((_, i: number) => {
         const rowBaseNum = 7 * i;
 
         return (
           <div key={i} className="grid grid-cols-7 gap-2">
-            {Object.keys([...Array(7)]).map((val, x: number) => {
+            {Object.keys([...Array(7)]).map((_, x: number) => {
               const goalIndex = x + 1;
               const dateNum = rowBaseNum + goalIndex + firstRowDateBlockSum;
 
@@ -265,7 +331,7 @@ export const Calendar = (props: CalendarProps) => {
       {/* Note: if lastRowDateBlockSum is 0, don't show the last row */}
       {!!lastRowDateBlockSum && (
         <div className="grid grid-cols-7 gap-2">
-          {[...Array(lastRowDateBlockSum)].map((val, i: number) => {
+          {[...Array(lastRowDateBlockSum)].map((_, i: number) => {
             const dateNum = firstRowDateBlockSum + sevenBlockRows * 7 + i + 1;
 
             return (
@@ -292,24 +358,32 @@ export const Calendar = (props: CalendarProps) => {
             );
           })}
 
-          {[...Array(lastRowBlankBlockSum)].map((val, i: number) => (
+          {[...Array(lastRowBlankBlockSum)].map((_, i: number) => (
             <div key={i} className="rounded-lg bg-yellow-50"></div>
           ))}
         </div>
       )}
 
+      {/* Note: goal status */}
       <div className="flex flex-col overflow-hidden rounded-lg bg-white text-center md:grid md:grid-cols-7 md:gap-2">
         <div className="flex items-center justify-center bg-yellow-200 py-2 md:col-span-1">
-          <h5 className="font-bold text-yellow-600">Goals:</h5>
+          <h5 className="p-2 font-bold text-yellow-600">Goal status:</h5>
         </div>
 
         <div className="md:col-span-6">
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 p-2 md:justify-start">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 px-4 py-2 md:gap-x-10 lg:gap-x-12">
             {goalArr.map((goal) => {
               return (
-                <p key={goal} className="text-gray-500">
-                  {goalList[goal].emoji} {goalList[goal].goal}
-                </p>
+                <div key={goal} className="flex flex-col">
+                  <ProgressDonutBar
+                    percent={getPercent(achievements[goal], targets[goal])}
+                    emoji={goalList[goal].emoji}
+                  />
+
+                  <p className="-mt-2 capitalize text-gray-500">
+                    {goalList[goal].goal}
+                  </p>
+                </div>
               );
             })}
           </div>
