@@ -6,7 +6,7 @@ import { demoData } from "./utilities/demo";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex flex-col items-center justify-between gap-4 p-4 sm:p-8 md:max-w-[90%]">
+    <main className="mx-auto flex flex-col items-center justify-between gap-4 p-4 sm:p-8">
       <h1 className="text-center text-4xl font-bold text-indigo-900 sm:text-5xl md:text-6xl">
         Record the goals you achieve with{" "}
         <span
