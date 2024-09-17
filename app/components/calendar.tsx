@@ -568,7 +568,7 @@ export const Calendar = (props: CalendarProps) => {
               return (
                 <div
                   key={goal}
-                  className="flex w-[calc(20%-0.5rem)] min-w-24 shrink-0 flex-col gap-2"
+                  className="flex w-[calc(20%-0.5rem)] min-w-24 shrink-0 flex-col"
                 >
                   <ProgressDonutBar
                     percent={
@@ -580,8 +580,16 @@ export const Calendar = (props: CalendarProps) => {
                     loading={loading} // Pass loading state to ProgressDonutBar
                   />
 
-                  <p className="-mt-2 capitalize text-gray-500">
+                  <p className="capitalize text-gray-500">
                     {goalList[goal].goal}
+                  </p>
+
+                  <p className="text-sm text-gray-700">
+                    (
+                    <em className="font-bold not-italic">
+                      {achievements[goal]}
+                    </em>
+                    )
                   </p>
                 </div>
               );
