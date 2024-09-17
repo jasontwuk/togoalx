@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { kalam } from "./utilities/fonts";
 import { Calendar } from "./components/Calendar";
 import { CallToAction } from "./components/CallToAction";
-import { demoData } from "./utilities/demo";
 
 export default function Home() {
   return (
@@ -28,7 +27,7 @@ export default function Home() {
 
       <CallToAction />
 
-      <Calendar data={demoData} />
+      <Calendar demo />
     </main>
   );
 }
