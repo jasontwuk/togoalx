@@ -3,10 +3,27 @@ import React from "react";
 type ProgressDonutBarType = {
   percent: number;
   emoji: string;
+  loading: boolean;
 };
 
 function ProgressDonutBar(props: ProgressDonutBarType) {
-  const { percent, emoji } = props;
+  const { percent, emoji, loading } = props;
+
+  if (loading) {
+    return (
+      <div className="inline-flex items-center justify-center">
+        <div
+          aria-labelledby="goal-status-loading-label"
+          className="flex h-20 w-20 items-center justify-center"
+        >
+          <i className="fa-solid fa-spinner animate-spin"></i>
+          <span className="visually-hidden" id="goal-status-loading-label">
+            Loading
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="inline-flex items-center justify-center overflow-hidden rounded-full">
