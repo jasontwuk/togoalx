@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import ProgressDonutBar from "./ProgressDonutBar";
 import { Button } from "./Button";
 import clsx from "clsx";
+
+import { demoData } from "../utilities/demo";
 
 import { useAuth } from "../utilities/authContext";
 import { onAuthStateChanged } from "firebase/auth";
@@ -59,12 +61,10 @@ goalArr.map((goal) => {
 // console.log({ initialMonthlyGoalData });
 
 type CalendarProps = {
-  data: {
-    [key: string]: number[];
-  };
+  demo?: boolean;
 };
 export const Calendar = (props: CalendarProps) => {
-  const { data } = props;
+  const { demo } = props;
 
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -260,24 +260,81 @@ export const Calendar = (props: CalendarProps) => {
   }, [currentUser, selectedYear, selectedMonthIndex, isUpdateTargets]);
   // console.log({ targets });
 
-  // *** Note: update goal achievements
-  const [achievements, setAchievements] = useState<MonthlyGoalDataType>(
+  // *** Note: handle display day achievements (get monthly data from "Firebase" or local "demo.ts")
+  type MonthAchievementDataType = { [key: string]: number[] };
+  let initialMonthAchievementData: MonthAchievementDataType = useMemo(() => {
+    return {};
+  }, []);
+  [...Array(daysInMonth)].map((_, i) => {
+    initialMonthAchievementData[i + 1] = [];
+  });
+  // console.log({ initialMonthAchievementData });
+
+  const [monthAchievementData, setMonthAchievementData] =
+    useState<MonthAchievementDataType>(initialMonthAchievementData);
+
+  useEffect(() => {
+    if (currentUser) {
+      const authStateChanged = onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          // *** Note: user is signed in
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+
+            const monthData =
+              userData[selectedYear] &&
+              userData[selectedYear][selectedMonthIndex] &&
+              userData[selectedYear][selectedMonthIndex]["achievements"];
+
+            const newMonthData = { ...initialMonthAchievementData };
+
+            const mergedMonthData = Object.assign(newMonthData, monthData);
+            // console.log({ mergedMonthData });
+
+            if (demo) {
+              setMonthAchievementData(demoData[2024][8]["achievements"]);
+            } else {
+              setMonthAchievementData(mergedMonthData);
+            }
+          } else {
+            console.log("No such document!");
+          }
+        } else {
+          // *** Note: user is signed out
+          console.log("User is not signed in");
+        }
+      });
+
+      return () => authStateChanged();
+    }
+  }, [
+    demo,
+    currentUser,
+    selectedYear,
+    selectedMonthIndex,
+    initialMonthAchievementData,
+  ]);
+
+  // *** Note: update sum of goal achievements
+  const [sumAchievement, setSumAchievement] = useState<MonthlyGoalDataType>(
     initialMonthlyGoalData,
   );
 
   useEffect(() => {
-    const newAchievements: MonthlyGoalDataType = {};
+    const newSumAchievement: MonthlyGoalDataType = {};
 
     goalArr.map((goal: string) => {
       let sum = 0;
       const goalIndex = goalArr.findIndex((item: string) => item === goal);
       // console.log({ goalIndex });
-      const dataLength = Object.keys(data).length;
+      const dataLength = Object.keys(monthAchievementData).length;
       // console.log({ dataLength });
 
       [...Array(dataLength)].map((_, i) => {
         // Note: the data for the first day of the month is stored under "1" (key name) in the month data object
-        data[i + 1].map((item) => {
+        monthAchievementData[i + 1].map((item) => {
           if (item === goalIndex) {
             sum++;
           }
@@ -285,11 +342,11 @@ export const Calendar = (props: CalendarProps) => {
       });
       // console.log(goal, ": ", sum);
 
-      newAchievements[goal] = sum;
+      newSumAchievement[goal] = sum;
     });
 
-    setAchievements(newAchievements);
-  }, [data]);
+    setSumAchievement(newSumAchievement);
+  }, [monthAchievementData]);
 
   const getPercent = (sum: number, target: number) => {
     if (sum === 0) {
@@ -382,11 +439,18 @@ export const Calendar = (props: CalendarProps) => {
             </h4>
 
             <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-              {data[i + 1].map((x: number) => (
-                <span key={x} role="img" aria-label={goalList[goalArr[x]].goal}>
-                  {goalList[goalArr[x]].emoji}
-                </span>
-              ))}
+              {monthAchievementData[i + 1].map(
+                (x: number) =>
+                  goalList[goalArr[x]] && (
+                    <span
+                      key={x}
+                      role="img"
+                      aria-label={goalList[goalArr[x]].goal}
+                    >
+                      {goalList[goalArr[x]].emoji}
+                    </span>
+                  ),
+              )}
             </div>
           </div>
         ))}
@@ -412,7 +476,7 @@ export const Calendar = (props: CalendarProps) => {
                   </h4>
 
                   <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-                    {data[dateNum].map((y: number) => (
+                    {monthAchievementData[dateNum].map((y: number) => (
                       <span
                         key={y}
                         role="img"
@@ -446,15 +510,16 @@ export const Calendar = (props: CalendarProps) => {
                 </h4>
 
                 <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-                  {data[dateNum].map((x: number) => (
-                    <span
-                      key={x}
-                      role="img"
-                      aria-label={goalList[goalArr[x]].goal}
-                    >
-                      {goalList[goalArr[x]].emoji}
-                    </span>
-                  ))}
+                  {monthAchievementData[dateNum] &&
+                    monthAchievementData[dateNum].map((x: number) => (
+                      <span
+                        key={x}
+                        role="img"
+                        aria-label={goalList[goalArr[x]].goal}
+                      >
+                        {goalList[goalArr[x]].emoji}
+                      </span>
+                    ))}
                 </div>
               </div>
             );
@@ -573,7 +638,7 @@ export const Calendar = (props: CalendarProps) => {
                   <ProgressDonutBar
                     percent={
                       targets[goal] >= 0
-                        ? getPercent(achievements[goal], targets[goal])
+                        ? getPercent(sumAchievement[goal], targets[goal])
                         : 0
                     }
                     emoji={goalList[goal].emoji}
@@ -587,7 +652,7 @@ export const Calendar = (props: CalendarProps) => {
                   <p className="text-sm text-gray-700">
                     (
                     <em className="font-bold not-italic">
-                      {achievements[goal]}
+                      {sumAchievement[goal]}
                     </em>
                     )
                   </p>
