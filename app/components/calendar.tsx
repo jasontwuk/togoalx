@@ -73,6 +73,8 @@ export const Calendar = (props: CalendarProps) => {
   // console.log({ currMonthIndex });
   const currentMonth = monthsArr[currMonthIndex];
 
+  const currentDate = now.getDate();
+
   const [selectedYear, setSelectYear] = useState(now.getFullYear());
   // console.log({ selectedYear });
 
@@ -462,7 +464,16 @@ export const Calendar = (props: CalendarProps) => {
             key={i}
             className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
           >
-            <h4 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+            <h4
+              className={clsx(
+                currentYear === selectedYear &&
+                  currentMonth === selectedMonth &&
+                  i + 1 === currentDate
+                  ? "bg-yellow-500 text-white"
+                  : "bg-gray-100",
+                "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-gray-500",
+              )}
+            >
               {i + 1}
             </h4>
 
@@ -499,7 +510,16 @@ export const Calendar = (props: CalendarProps) => {
                   key={goalIndex}
                   className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
                 >
-                  <h4 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                  <h4
+                    className={clsx(
+                      currentYear === selectedYear &&
+                        currentMonth === selectedMonth &&
+                        dateNum === currentDate
+                        ? "bg-yellow-500 text-white"
+                        : "bg-gray-100",
+                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-gray-500",
+                    )}
+                  >
                     {dateNum}
                   </h4>
 
@@ -533,7 +553,16 @@ export const Calendar = (props: CalendarProps) => {
                 key={i}
                 className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
               >
-                <h4 className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-500">
+                <h4
+                  className={clsx(
+                    currentYear === selectedYear &&
+                      currentMonth === selectedMonth &&
+                      dateNum === currentDate
+                      ? "bg-yellow-500 text-white"
+                      : "bg-gray-100",
+                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-gray-500",
+                  )}
+                >
                   {dateNum}
                 </h4>
 
