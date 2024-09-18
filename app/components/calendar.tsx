@@ -158,7 +158,7 @@ export const Calendar = (props: CalendarProps) => {
   const [targets, setTargets] = useState<MonthlyGoalDataType>(
     initialMonthlyGoalData,
   );
-  const [targetData, setTargetData] = useState<MonthlyGoalDataType>(
+  const [monthTargetData, setMonthTargetData] = useState<MonthlyGoalDataType>(
     initialMonthlyGoalData,
   );
 
@@ -176,7 +176,7 @@ export const Calendar = (props: CalendarProps) => {
 
   const { currentUser, userDataObj, setUserDataObj } = useAuth();
 
-  async function handleSaveUpdateTargets(targets: MonthlyGoalDataType) {
+  async function handleSaveEditTargets(targets: MonthlyGoalDataType) {
     const year = selectedYear;
     const month = selectedMonthIndex;
 
@@ -199,12 +199,12 @@ export const Calendar = (props: CalendarProps) => {
       const res = await setDoc(
         docRef,
         {
-          calendarData: {
-            [year]: {
-              [month]: targets,
+          [year]: {
+            [month]: {
+              targets: targets,
             },
-            // *** Note: merge the new mood info with the current data in the firebase
           },
+          // *** Note: merge the new mood info with the current data in the firebase
         },
         { merge: true },
       );
@@ -221,7 +221,7 @@ export const Calendar = (props: CalendarProps) => {
 
   const handleCancelUpdateTargets = () => {
     setIsUpdateTargets(true);
-    setTargets(targetData);
+    setTargets(monthTargetData);
   };
 
   useEffect(() => {
@@ -235,15 +235,23 @@ export const Calendar = (props: CalendarProps) => {
             const userData = userDoc.data();
 
             const monthData =
-              (userData.calendarData &&
-                userData.calendarData[selectedYear] &&
-                userData.calendarData[selectedYear][selectedMonthIndex]) ||
-              initialMonthlyGoalData;
+              userData &&
+              userData[selectedYear] &&
+              userData[selectedYear][selectedMonthIndex] &&
+              userData[selectedYear][selectedMonthIndex]["targets"];
 
-            // console.log({ monthData });
+            const newMonthData = { ...initialMonthlyGoalData };
 
-            setTargetData(monthData);
-            setTargets(monthData);
+            const mergedMonthData = Object.assign(newMonthData, monthData);
+
+            if (demo) {
+              setMonthTargetData(demoData[2024][8]["targets"]);
+              setTargets(demoData[2024][8]["targets"]);
+            } else {
+              setMonthTargetData(mergedMonthData);
+              setTargets(mergedMonthData);
+            }
+
             setLoading(false);
           } else {
             console.log("No such document!");
@@ -257,7 +265,7 @@ export const Calendar = (props: CalendarProps) => {
       return () => authStateChanged();
     }
     // *** Note: add "isUpdateTargets" in dependency, because we want to show the new goal targets when users click the "Save" button
-  }, [currentUser, selectedYear, selectedMonthIndex, isUpdateTargets]);
+  }, [currentUser, selectedYear, selectedMonthIndex, isUpdateTargets, demo]);
   // console.log({ targets });
 
   // *** Note: handle display day achievements (get monthly data from "Firebase" or local "demo.ts")
@@ -596,7 +604,7 @@ export const Calendar = (props: CalendarProps) => {
                 <div className="flex gap-2">
                   <Button
                     className="flex items-center justify-center gap-2 px-4 py-2"
-                    clickHandler={() => handleSaveUpdateTargets(targets)}
+                    clickHandler={() => handleSaveEditTargets(targets)}
                   >
                     <i className="fa-solid fa-check-circle text-sm"></i>
                     Save
