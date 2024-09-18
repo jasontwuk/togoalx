@@ -263,6 +263,12 @@ export const Calendar = (props: CalendarProps) => {
       });
 
       return () => authStateChanged();
+    } else {
+      if (demo) {
+        setMonthTargetData(demoData[2024][8]["targets"]);
+        setTargets(demoData[2024][8]["targets"]);
+        setLoading(false);
+      }
     }
     // *** Note: add "isUpdateTargets" in dependency, because we want to show the new goal targets when users click the "Save" button
   }, [currentUser, selectedYear, selectedMonthIndex, isUpdateTargets, demo]);
@@ -316,6 +322,10 @@ export const Calendar = (props: CalendarProps) => {
       });
 
       return () => authStateChanged();
+    } else {
+      if (demo) {
+        setMonthAchievementData(demoData[2024][8]["achievements"]);
+      }
     }
   }, [
     demo,
