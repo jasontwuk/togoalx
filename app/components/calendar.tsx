@@ -374,21 +374,23 @@ export const Calendar = (props: CalendarProps) => {
     <div className="flex w-full flex-col gap-2 overflow-hidden py-4 sm:py-6 md:py-10">
       {/* Note: month/year and control buttons */}
       <div className="flex items-center justify-center">
-        <button
-          onClick={() => {
-            handleChangeMonth(-1);
-          }}
-          className="mr-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
-          aria-labelledby="previous-month-label"
-        >
-          <i className="fa-solid fa-circle-chevron-left"></i>
-          <span className="visually-hidden" id="previous-month-label">
-            Previous month
-          </span>
-        </button>
+        {!demo && (
+          <button
+            onClick={() => {
+              handleChangeMonth(-1);
+            }}
+            className="mr-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
+            aria-labelledby="previous-month-label"
+          >
+            <i className="fa-solid fa-circle-chevron-left"></i>
+            <span className="visually-hidden" id="previous-month-label">
+              Previous month
+            </span>
+          </button>
+        )}
 
         <div className="flex items-center justify-center gap-2">
-          <h2>
+          <h2 className="text-center text-xl font-bold">
             {selectedMonth} {selectedYear}
           </h2>
 
@@ -408,20 +410,28 @@ export const Calendar = (props: CalendarProps) => {
               </span>
             </button>
           )}
+
+          {demo && (
+            <span className="rounded-md bg-yellow-500 px-1 font-bold text-white">
+              Demo
+            </span>
+          )}
         </div>
 
-        <button
-          onClick={() => {
-            handleChangeMonth(1);
-          }}
-          className="ml-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
-          aria-labelledby="next-month-label"
-        >
-          <i className="fa-solid fa-circle-chevron-right"></i>
-          <span className="visually-hidden" id="next-month-label">
-            Next month
-          </span>
-        </button>
+        {!demo && (
+          <button
+            onClick={() => {
+              handleChangeMonth(1);
+            }}
+            className="ml-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
+            aria-labelledby="next-month-label"
+          >
+            <i className="fa-solid fa-circle-chevron-right"></i>
+            <span className="visually-hidden" id="next-month-label">
+              Next month
+            </span>
+          </button>
+        )}
       </div>
 
       {/* Note: days */}
@@ -596,6 +606,7 @@ export const Calendar = (props: CalendarProps) => {
                 <Button
                   className="flex items-center justify-center gap-2 px-4 py-2"
                   clickHandler={() => setIsUpdateTargets(false)}
+                  disabled={demo}
                 >
                   <i className="fa-solid fa-pen text-sm"></i>
                   Edit
