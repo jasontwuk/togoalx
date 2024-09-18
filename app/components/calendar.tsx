@@ -691,7 +691,7 @@ export const Calendar = (props: CalendarProps) => {
               return (
                 <div
                   key={goal}
-                  className="flex w-[calc(20%-0.5rem)] min-w-24 shrink-0 flex-col"
+                  className="flex w-[calc(20%-0.5rem)] min-w-24 shrink-0 flex-col items-center"
                 >
                   <ProgressDonutBar
                     percent={
@@ -707,13 +707,9 @@ export const Calendar = (props: CalendarProps) => {
                     {goalList[goal].goal}
                   </p>
 
-                  <p className="text-sm text-gray-700">
-                    (
-                    <em className="font-bold not-italic">
-                      {sumAchievement[goal]}
-                    </em>
-                    )
-                  </p>
+                  <span className="w-fit rounded bg-yellow-500 px-1 py-0.5 text-xs">
+                    {sumAchievement[goal]}
+                  </span>
                 </div>
               );
             })}
