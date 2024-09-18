@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 
 type ProgressDonutBarType = {
@@ -26,7 +27,7 @@ function ProgressDonutBar(props: ProgressDonutBarType) {
   }
 
   return (
-    <div className="inline-flex items-center justify-center overflow-hidden rounded-full">
+    <div className="relative inline-flex items-center justify-center overflow-hidden rounded-full">
       <svg className="h-20 w-20 -rotate-90">
         <circle
           className="text-gray-300"
@@ -39,7 +40,11 @@ function ProgressDonutBar(props: ProgressDonutBarType) {
         />
 
         <circle
-          className="text-yellow-500"
+          className={clsx(
+            percent >= 80 && "text-green-500",
+            percent < 80 && percent >= 60 && "text-blue-500",
+            percent < 60 && "text-red-500",
+          )}
           strokeWidth="5"
           strokeDasharray={30 * 2 * Math.PI}
           strokeDashoffset={
@@ -57,8 +62,17 @@ function ProgressDonutBar(props: ProgressDonutBarType) {
       <div className="absolute flex flex-col">
         <p className="leading-3">{emoji}</p>
 
-        <p className="text-xl text-indigo-700">
-          {percent}
+        <p className="text-xl">
+          <span
+            className={clsx(
+              percent >= 80 && "text-green-700",
+              percent < 80 && percent >= 60 && "text-blue-700",
+              percent < 60 && "text-red-700",
+              "font-semibold",
+            )}
+          >
+            {percent}
+          </span>
           <span className="text-xs">%</span>
         </p>
       </div>
