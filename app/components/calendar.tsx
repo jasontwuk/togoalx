@@ -11,6 +11,7 @@ import { useAuth } from "../utilities/authContext";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase";
+import { DateUnit } from "./DateUnit";
 
 type monthsType = { [key: string]: string };
 const months: monthsType = {
@@ -531,40 +532,25 @@ export const Calendar = (props: CalendarProps) => {
             <div key={i} className="rounded-lg bg-yellow-50"></div>
           ))}
 
-          {[...Array(firstRowDateBlockSum)].map((_, i: number) => (
-            <div
-              key={i}
-              className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
-            >
-              <h4
-                className={clsx(
-                  currentYear === selectedYear &&
-                    currentMonth === selectedMonth &&
-                    i + 1 === currentDate
-                    ? "bg-yellow-500 text-white"
-                    : "bg-gray-100",
-                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-gray-500",
-                )}
-              >
-                {i + 1}
-              </h4>
+          {[...Array(firstRowDateBlockSum)].map((_, i: number) => {
+            const dateNum = i + 1;
 
-              <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-                {monthAchievementData[i + 1].map(
-                  (x: number) =>
-                    goalList[goalArr[x]] && (
-                      <span
-                        key={x}
-                        role="img"
-                        aria-label={goalList[goalArr[x]].goal}
-                      >
-                        {goalList[goalArr[x]].emoji}
-                      </span>
-                    ),
-                )}
-              </div>
-            </div>
-          ))}
+            return (
+              <DateUnit
+                key={dateNum}
+                currentYear={currentYear}
+                selectedYear={selectedYear}
+                currentMonth={currentMonth}
+                selectedMonth={selectedMonth}
+                dateNum={dateNum}
+                currentDate={currentDate}
+                monthAchievementData={monthAchievementData}
+                goalList={goalList}
+                goalArr={goalArr}
+                demo={demo}
+              />
+            );
+          })}
         </div>
 
         {/* Note: middle rows of the calendar */}
@@ -578,35 +564,19 @@ export const Calendar = (props: CalendarProps) => {
                 const dateNum = rowBaseNum + goalIndex + firstRowDateBlockSum;
 
                 return (
-                  <div
-                    key={goalIndex}
-                    className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
-                  >
-                    <h4
-                      className={clsx(
-                        currentYear === selectedYear &&
-                          currentMonth === selectedMonth &&
-                          dateNum === currentDate
-                          ? "bg-yellow-500 text-white"
-                          : "bg-gray-100",
-                        "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-gray-500",
-                      )}
-                    >
-                      {dateNum}
-                    </h4>
-
-                    <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-                      {monthAchievementData[dateNum].map((y: number) => (
-                        <span
-                          key={y}
-                          role="img"
-                          aria-label={goalList[goalArr[y]].goal}
-                        >
-                          {goalList[goalArr[y]].emoji}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  <DateUnit
+                    key={dateNum}
+                    currentYear={currentYear}
+                    selectedYear={selectedYear}
+                    currentMonth={currentMonth}
+                    selectedMonth={selectedMonth}
+                    dateNum={dateNum}
+                    currentDate={currentDate}
+                    monthAchievementData={monthAchievementData}
+                    goalList={goalList}
+                    goalArr={goalArr}
+                    demo={demo}
+                  />
                 );
               })}
             </div>
@@ -621,36 +591,19 @@ export const Calendar = (props: CalendarProps) => {
               const dateNum = firstRowDateBlockSum + sevenBlockRows * 7 + i + 1;
 
               return (
-                <div
-                  key={i}
-                  className="flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row"
-                >
-                  <h4
-                    className={clsx(
-                      currentYear === selectedYear &&
-                        currentMonth === selectedMonth &&
-                        dateNum === currentDate
-                        ? "bg-yellow-500 text-white"
-                        : "bg-gray-100",
-                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-gray-500",
-                    )}
-                  >
-                    {dateNum}
-                  </h4>
-
-                  <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-                    {monthAchievementData[dateNum] &&
-                      monthAchievementData[dateNum].map((x: number) => (
-                        <span
-                          key={x}
-                          role="img"
-                          aria-label={goalList[goalArr[x]].goal}
-                        >
-                          {goalList[goalArr[x]].emoji}
-                        </span>
-                      ))}
-                  </div>
-                </div>
+                <DateUnit
+                  key={dateNum}
+                  currentYear={currentYear}
+                  selectedYear={selectedYear}
+                  currentMonth={currentMonth}
+                  selectedMonth={selectedMonth}
+                  dateNum={dateNum}
+                  currentDate={currentDate}
+                  monthAchievementData={monthAchievementData}
+                  goalList={goalList}
+                  goalArr={goalArr}
+                  demo={demo}
+                />
               );
             })}
 
