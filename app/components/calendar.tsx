@@ -413,7 +413,7 @@ export const Calendar = (props: CalendarProps) => {
               className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-400 text-xl text-white duration-200 hover:opacity-60"
               aria-labelledby="back-to-current-month-label"
             >
-              <i className="fa-solid fa-arrow-rotate-right text-sm"></i>
+              <i className="fa-solid fa-arrow-rotate-right text-xs"></i>
               <span
                 className="visually-hidden"
                 id="back-to-current-month-label"
