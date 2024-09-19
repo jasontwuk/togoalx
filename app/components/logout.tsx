@@ -8,8 +8,12 @@ function Logout() {
   const { logout } = useAuth();
 
   return (
-    <Button clickHandler={logout} className="py-0.5 px-2">
-      Log out
+    <Button
+      clickHandler={logout}
+      className="flex items-center justify-center gap-2 px-2 py-0.5"
+    >
+      <span>Log out</span>
+      <i className="fa-solid fa-right-from-bracket"></i>
     </Button>
   );
 }

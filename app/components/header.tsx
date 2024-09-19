@@ -36,7 +36,7 @@ export const Header = () => {
   }
 
   return (
-    <div className="flex justify-between items-center p-4 sm:p-8 gap-4">
+    <div className="flex items-center justify-between gap-4 p-4 sm:p-8">
       <Link
         href={"/"}
         className={clsx(kalam.className, "text-2xl font-bold text-indigo-500")}
@@ -45,18 +45,19 @@ export const Header = () => {
       </Link>
 
       {currentUser && username ? (
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <span>
-            Hi <em className="not-italic font-bold">{username}</em>
+            Hi <em className="font-bold not-italic">{username}</em>
           </span>
           <Logout />
         </div>
       ) : (
         <Link
           href={"/login"}
-          className="py-0.5 px-2 rounded-full overflow-hidden border border-indigo-500 hover:bg-indigo-500 text-indigo-500 hover:text-white  duration-200 capitalize font-semibold"
+          className="flex items-center justify-center gap-2 overflow-hidden rounded-full border border-indigo-500 px-2 py-0.5 font-semibold capitalize text-indigo-500 duration-200 hover:bg-indigo-500 hover:text-white"
         >
-          log in
+          <i className="fa-solid fa-right-to-bracket"></i>
+          <span>log in</span>
         </Link>
       )}
     </div>

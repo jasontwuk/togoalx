@@ -54,12 +54,12 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
   }, [currentUser]);
 
   return (
-    <div className="max-w-lg w-full mx-auto flex flex-col flex-1 justify-center items-center gap-4">
-      <h1 className="text-4xl sm:text-5xl md:text-6xl text-center text-indigo-900 font-bold">
+    <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center gap-4">
+      <h1 className="text-center text-4xl font-bold text-indigo-900 sm:text-5xl md:text-6xl">
         {isForLogin ? "Log In" : "Sign up"}
       </h1>
 
-      <h2 className="text-base text-center">
+      <h2 className="text-center text-base">
         Please provide the following information...
       </h2>
 
@@ -70,7 +70,7 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
             setName(e.target.value);
           }}
           type="text"
-          className="w-full px-3 py-2 sm:py-3 border border-solid border-gray-300 rounded-full outline-none duration-200 hover:border-gray-400 focus:border-yellow-500"
+          className="w-full rounded-full border border-solid border-gray-300 px-3 py-2 outline-none duration-200 hover:border-gray-400 focus:border-yellow-500 sm:py-3"
           placeholder="Name"
         />
       )}
@@ -81,7 +81,7 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
           setEmail(e.target.value);
         }}
         type="email"
-        className="w-full px-3 py-2 sm:py-3 border border-solid border-gray-300 rounded-full outline-none duration-200 hover:border-gray-400 focus:border-yellow-500"
+        className="w-full rounded-full border border-solid border-gray-300 px-3 py-2 outline-none duration-200 hover:border-gray-400 focus:border-yellow-500 sm:py-3"
         placeholder="Email"
       />
 
@@ -91,7 +91,7 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
           setPassword(e.target.value);
         }}
         type="password"
-        className="w-full px-3 py-2 sm:py-3 border border-solid border-gray-300 rounded-full outline-none duration-200 hover:border-gray-400 focus:border-yellow-500"
+        className="w-full rounded-full border border-solid border-gray-300 px-3 py-2 outline-none duration-200 hover:border-gray-400 focus:border-yellow-500 sm:py-3"
         placeholder="Password"
       />
 
@@ -100,7 +100,14 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
         className="border-2 px-3 py-2 sm:py-3"
         full
       >
-        {authenticating ? "Submitting" : "Submit"}
+        {authenticating ? (
+          "Submitting"
+        ) : (
+          <p className="flex items-center justify-center gap-2">
+            <i className="fa-solid fa-circle-check"></i>
+            <span>Submit</span>
+          </p>
+        )}
       </Button>
 
       <p className="text-center">
@@ -108,7 +115,7 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
 
         <Link
           href={isForLogin ? "/signup" : "/login"}
-          className="text-indigo-600 hover:text-indigo-400 font-bold"
+          className="font-bold text-indigo-600 hover:text-indigo-400"
         >
           {isForLogin ? "Sign up" : "Log in"}
         </Link>

@@ -14,10 +14,15 @@ export const CallToAction = () => {
       {currentUser && (
         <Link
           href={"/dashboard"}
-          className="w-full mx-auto max-w-[70%] md:max-w-[50%]"
+          className="mx-auto w-full max-w-[70%] md:max-w-[50%]"
         >
-          <Button full dark className="p-2">
-            Go to dashboard
+          <Button
+            full
+            dark
+            className="flex items-center justify-center gap-2 p-2"
+          >
+            <i className="fa-solid fa-circle-arrow-right"></i>
+            <span>Go to dashboard</span>
           </Button>
         </Link>
       )}
