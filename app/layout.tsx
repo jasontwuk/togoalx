@@ -21,14 +21,14 @@ export default function RootLayout({
       <Head />
 
       <AuthProvider>
-        <body
-          className={`${nunito.className} w-full max-w-screen-lg mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800 bg-yellow-100`}
-        >
-          <Header />
+        <body className={`${nunito.className} w-full bg-yellow-100`}>
+          <div className="mx-auto flex min-h-screen w-full max-w-screen-lg flex-col text-sm text-slate-800 sm:text-base">
+            <Header />
 
-          {children}
+            {children}
 
-          <Footer />
+            <Footer />
+          </div>
         </body>
       </AuthProvider>
     </html>

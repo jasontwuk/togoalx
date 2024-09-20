@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import FocusTrap from "focus-trap-react";
 import { Button } from "./Button";
+
+import FocusTrap from "focus-trap-react";
+import { RemoveScroll } from "react-remove-scroll";
 
 type ModalProps = {
   selectedYear: number;
@@ -9,7 +11,7 @@ type ModalProps = {
   children: React.ReactNode;
 };
 
-export const Modal: React.FC<ModalProps> = (props) => {
+export const Modal = (props: ModalProps) => {
   const { selectedYear, selectedMonth, dateNum, children } = props;
 
   const [showModal, setShowModal] = useState(false);
@@ -26,65 +28,63 @@ export const Modal: React.FC<ModalProps> = (props) => {
 
       {showModal && (
         <FocusTrap>
-          <div className="fixed inset-0 z-40 flex items-center justify-center overflow-y-auto overflow-x-hidden">
-            <div className="relative z-50 mx-auto flex w-full max-w-3xl flex-col">
-              <div className="relative mx-2 my-6 flex min-w-80 max-w-3xl items-center justify-center">
-                <div className="relative flex w-full flex-col rounded-lg border-0 bg-white p-5 shadow-lg">
-                  {/* Note: header*/}
-                  <div className="border-blueGray-200 flex items-start justify-between rounded-t border-b border-solid pb-5">
-                    <h3
-                      id="modal-header"
-                      className="flex items-center justify-center gap-2 text-3xl font-bold"
-                    >
-                      <span>{dateNum}</span>
-                      <span>{selectedMonth}</span>
-                      <span>{selectedYear}</span>
-                    </h3>
-                    <button
-                      className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-red-500 duration-200 hover:opacity-80"
-                      onClick={() => setShowModal(false)}
-                      aria-label="Close modal"
-                    >
-                      <i className="fa-solid fa-circle-xmark"></i>
-                    </button>
-                  </div>
-
-                  {/* Note: body*/}
-                  <div
-                    id="modal-body"
-                    className="relative flex-auto py-5"
-                    role="dialog"
-                    aria-labelledby="modal-header"
-                    aria-describedby="modal-body"
+          {/* Note: modal Overlay */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-25">
+            <RemoveScroll>
+              {/* Note: modal Container */}
+              <div className="relative z-[60] mx-2 flex w-[calc(100%-.0.25rem)] max-w-3xl flex-col rounded-lg bg-white p-4 shadow-lg">
+                {/* Note: header */}
+                <div className="flex items-center justify-between gap-4 rounded-t border-b border-gray-200 pb-4">
+                  <h3
+                    id="modal-header"
+                    className="flex items-center justify-center gap-2 text-lg font-bold sm:text-xl md:text-2xl"
                   >
-                    <p className="">contents</p>
-                  </div>
+                    <span>{dateNum}</span>
+                    <span>{selectedMonth}</span>
+                    <span>{selectedYear}</span>
+                  </h3>
 
-                  {/* Note: footer*/}
-                  <div className="border-blueGray-200 flex items-center justify-end rounded-b border-t border-solid pt-5">
-                    <div className="flex gap-2">
-                      <Button
-                        className="flex items-center justify-center gap-2 px-4 py-2"
-                        clickHandler={() => setShowModal(false)}
-                      >
-                        <i className="fa-solid fa-check-circle text-sm"></i>
-                        Save
-                      </Button>
+                  <button
+                    className="text-3xl leading-4 text-indigo-500 duration-200 hover:text-red-500"
+                    onClick={() => setShowModal(false)}
+                    aria-label="Close modal"
+                  >
+                    <i className="fa-solid fa-circle-xmark"></i>
+                  </button>
+                </div>
 
-                      <Button
-                        className="flex items-center justify-center gap-2 border-red-500 px-4 py-2 text-red-500 hover:bg-red-500"
-                        clickHandler={() => setShowModal(false)}
-                      >
-                        <i className="fa-solid fa-circle-xmark text-sm"></i>
-                        Cancel
-                      </Button>
-                    </div>
+                {/* Note: body */}
+                <div
+                  id="modal-body"
+                  className="flex-auto py-4"
+                  role="dialog"
+                  aria-labelledby="modal-header"
+                >
+                  <p>Contents</p>
+                </div>
+
+                {/* Note: footer */}
+                <div className="flex items-center justify-end rounded-b border-t border-gray-200 pt-4">
+                  <div className="flex items-center justify-center gap-2">
+                    <Button
+                      className="flex items-center justify-center gap-2 px-4 py-2"
+                      clickHandler={() => setShowModal(false)}
+                    >
+                      <i className="fa-solid fa-check-circle text-sm"></i>
+                      Save
+                    </Button>
+
+                    <Button
+                      className="flex items-center justify-center gap-2 border-red-500 px-4 py-2 text-red-500 hover:bg-red-500"
+                      clickHandler={() => setShowModal(false)}
+                    >
+                      <i className="fa-solid fa-circle-xmark text-sm"></i>
+                      Cancel
+                    </Button>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="fixed inset-0 z-30 bg-black opacity-25"></div>
+            </RemoveScroll>
           </div>
         </FocusTrap>
       )}
