@@ -383,6 +383,16 @@ export const Calendar = (props: CalendarProps) => {
     return percent;
   };
 
+  const handleUpdateAchievements = (
+    dateNum: number,
+    achievements: number[],
+  ) => {
+    setMonthAchievementData((prev) => ({
+      ...prev,
+      [dateNum]: achievements,
+    }));
+  };
+
   return (
     <div className="flex w-full flex-col gap-4 overflow-hidden py-4 sm:gap-6 sm:py-6 md:gap-10 md:py-10">
       {/* Note: goal status */}
@@ -400,7 +410,7 @@ export const Calendar = (props: CalendarProps) => {
                     key={goal}
                     className="flex w-[calc(20%-0.5rem)] min-w-24 shrink-0 flex-col items-center"
                   >
-                    <p className="">{goalList[goal].emoji}</p>
+                    <p className="text-3xl">{goalList[goal].emoji}</p>
 
                     <ProgressDonutBar
                       percent={
@@ -542,6 +552,8 @@ export const Calendar = (props: CalendarProps) => {
                 selectedYear={selectedYear}
                 currentMonth={currentMonth}
                 selectedMonth={selectedMonth}
+                selectedMonthIndex={selectedMonthIndex}
+                handleUpdateAchievements={handleUpdateAchievements}
                 dateNum={dateNum}
                 currentDate={currentDate}
                 monthAchievementData={monthAchievementData}
@@ -570,6 +582,8 @@ export const Calendar = (props: CalendarProps) => {
                     selectedYear={selectedYear}
                     currentMonth={currentMonth}
                     selectedMonth={selectedMonth}
+                    selectedMonthIndex={selectedMonthIndex}
+                    handleUpdateAchievements={handleUpdateAchievements}
                     dateNum={dateNum}
                     currentDate={currentDate}
                     monthAchievementData={monthAchievementData}
@@ -597,6 +611,8 @@ export const Calendar = (props: CalendarProps) => {
                   selectedYear={selectedYear}
                   currentMonth={currentMonth}
                   selectedMonth={selectedMonth}
+                  selectedMonthIndex={selectedMonthIndex}
+                  handleUpdateAchievements={handleUpdateAchievements}
                   dateNum={dateNum}
                   currentDate={currentDate}
                   monthAchievementData={monthAchievementData}
@@ -628,7 +644,7 @@ export const Calendar = (props: CalendarProps) => {
                   key={goal}
                   className="flex w-[calc(20%-0.5rem)] min-w-24 shrink-0 flex-col items-center"
                 >
-                  <span>{goalList[goal].emoji}</span>
+                  <span className="text-3xl">{goalList[goal].emoji}</span>
 
                   <span className="capitalize text-gray-500">
                     {goalList[goal].goal}

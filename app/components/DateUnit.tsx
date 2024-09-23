@@ -1,5 +1,7 @@
+"use client";
+
 import clsx from "clsx";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "./Modal";
 
 type DateProps = {
@@ -7,11 +9,13 @@ type DateProps = {
   selectedYear: number;
   currentMonth: string;
   selectedMonth: string;
+  selectedMonthIndex: number;
   dateNum: number;
   currentDate: number;
   monthAchievementData: { [key: string]: number[] };
   goalList: { [key: string]: { emoji: string; goal: string } };
   goalArr: string[];
+  handleUpdateAchievements: (dateNum: number, achievements: number[]) => void;
   demo?: boolean;
 };
 
@@ -21,12 +25,22 @@ const DateUnitContents = (props: DateProps) => {
     selectedYear,
     currentMonth,
     selectedMonth,
+    selectedMonthIndex,
     dateNum,
     currentDate,
     monthAchievementData,
     goalList,
     goalArr,
+    handleUpdateAchievements,
   } = props;
+
+  const [localAchievements, setLocalAchievements] = useState(
+    monthAchievementData[dateNum] || [],
+  );
+
+  useEffect(() => {
+    setLocalAchievements(monthAchievementData[dateNum] || []);
+  }, [monthAchievementData, dateNum]);
 
   return (
     <>
@@ -44,8 +58,8 @@ const DateUnitContents = (props: DateProps) => {
       </h4>
 
       <div className="flex flex-wrap justify-center gap-1 text-center md:justify-start">
-        {monthAchievementData[dateNum] &&
-          monthAchievementData[dateNum].map((x: number) =>
+        {localAchievements &&
+          localAchievements.map((x: number) =>
             goalList[goalArr[x]] ? (
               <span key={x} role="img" aria-label={goalList[goalArr[x]].goal}>
                 {goalList[goalArr[x]].emoji}
