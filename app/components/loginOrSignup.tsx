@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
 import { redirect } from "next/navigation";
 import { useAuth } from "../utilities/authContext";
-import Link from "next/link";
 import { Button } from "./Button";
+import { StyledLink } from "./StyledLink";
 
 type LoginOrSignupProps = {
   isForLogin: boolean;
@@ -113,12 +114,9 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
       <p className="text-center">
         {isForLogin ? "Don't have an account? " : "Already have an account? "}
 
-        <Link
-          href={isForLogin ? "/signup" : "/login"}
-          className="font-bold text-indigo-600 hover:text-indigo-400"
-        >
+        <StyledLink href={isForLogin ? "/signup" : "/login"} isPlain={true}>
           {isForLogin ? "Sign up" : "Log in"}
-        </Link>
+        </StyledLink>
       </p>
     </div>
   );

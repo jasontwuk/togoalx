@@ -1,16 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import clsx from "clsx";
-import Link from "next/link";
 
-import { kalam } from "../utilities/fonts";
 import { useAuth } from "../utilities/authContext";
 import Logout from "./Logout";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase";
+import { StyledLink } from "./StyledLink";
 
 export const Header = () => {
   const { currentUser } = useAuth();
@@ -37,12 +35,9 @@ export const Header = () => {
 
   return (
     <div className="flex items-center justify-between gap-4 p-4 sm:p-8">
-      <Link
-        href={"/"}
-        className={clsx(kalam.className, "text-2xl font-bold text-indigo-500")}
-      >
+      <StyledLink href="/" isKalam={true} isPlain={true} className="text-2xl">
         ToGoalx
-      </Link>
+      </StyledLink>
 
       {currentUser && username ? (
         <div className="flex items-center justify-center gap-2">
@@ -52,13 +47,10 @@ export const Header = () => {
           <Logout />
         </div>
       ) : (
-        <Link
-          href={"/login"}
-          className="flex items-center justify-center gap-2 overflow-hidden rounded-full border border-indigo-500 px-2 py-0.5 font-semibold capitalize text-indigo-500 duration-200 hover:bg-indigo-500 hover:text-white"
-        >
+        <StyledLink href="/login" isBorder={true}>
           <i className="fa-solid fa-right-to-bracket"></i>
           <span>log in</span>
-        </Link>
+        </StyledLink>
       )}
     </div>
   );
