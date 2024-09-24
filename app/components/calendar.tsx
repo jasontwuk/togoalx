@@ -473,7 +473,7 @@ export const Calendar = (props: CalendarProps) => {
               onClick={() => {
                 handleChangeMonth(-1);
               }}
-              className="mr-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
+              className="mr-auto h-5 w-5 rounded-full text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
               aria-labelledby="previous-month-label"
             >
               <i className="fa-solid fa-circle-chevron-left"></i>
@@ -493,7 +493,7 @@ export const Calendar = (props: CalendarProps) => {
               currentMonth !== selectedMonth) && (
               <button
                 onClick={handleBackToCurrentMonth}
-                className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-400 text-xl text-white duration-200 hover:opacity-60"
+                className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-400 text-xl text-white duration-200 hover:opacity-60 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
                 aria-labelledby="back-to-current-month-label"
               >
                 <i className="fa-solid fa-arrow-rotate-right text-xs"></i>
@@ -518,7 +518,7 @@ export const Calendar = (props: CalendarProps) => {
               onClick={() => {
                 handleChangeMonth(1);
               }}
-              className="ml-auto h-5 w-5 text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60"
+              className="ml-auto h-5 w-5 rounded-full text-xl leading-5 text-indigo-400 duration-200 hover:opacity-60 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500"
               aria-labelledby="next-month-label"
             >
               <i className="fa-solid fa-circle-chevron-right"></i>
