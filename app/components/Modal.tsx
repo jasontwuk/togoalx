@@ -7,6 +7,7 @@ import { RemoveScroll } from "react-remove-scroll";
 import { useAuth } from "../utilities/authContext";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/firebase";
+import clsx from "clsx";
 
 type ModalProps = {
   selectedYear: number;
@@ -163,7 +164,12 @@ export const Modal = (props: ModalProps) => {
                   </h3>
 
                   <button
-                    className="text-3xl leading-4 text-indigo-500 duration-200 hover:text-red-500"
+                    className={clsx(
+                      "rounded-full text-3xl leading-4 text-indigo-500 duration-200 hover:text-red-500",
+
+                      // *** Note: focus-visible
+                      "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500",
+                    )}
                     onClick={() => setShowModal(false)}
                     aria-label="Close modal"
                   >
@@ -202,7 +208,15 @@ export const Modal = (props: ModalProps) => {
 
                             <label
                               htmlFor={goal}
-                              className="z-10 inline-flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-gray-200 bg-transparent p-3 text-gray-500 duration-200 hover:bg-gradient-to-b hover:from-transparent hover:from-30% hover:to-yellow-200 hover:text-gray-600 peer-checked:border-indigo-500 peer-checked:text-gray-600 peer-focus:outline peer-focus:outline-[3px] peer-focus:outline-offset-2 peer-focus:outline-yellow-500"
+                              className={clsx(
+                                "z-10 inline-flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-gray-200 bg-transparent p-3 text-gray-500 duration-200 hover:bg-gradient-to-b hover:from-transparent hover:from-30% hover:to-yellow-200 hover:text-gray-600",
+
+                                // *** Note: peer-checked
+                                "peer-checked:border-indigo-500 peer-checked:text-gray-600",
+
+                                // *** Note: peer-focus-visible
+                                "peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-yellow-500",
+                              )}
                             >
                               <div className="text-3xl">
                                 {goalList[goal].emoji}
