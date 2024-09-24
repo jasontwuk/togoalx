@@ -194,7 +194,7 @@ export const Modal = (props: ModalProps) => {
                               type="checkbox"
                               id={goal}
                               value={goalList[goal].goal}
-                              className="peer hidden"
+                              className="peer absolute left-3 top-3 opacity-0"
                               required={false}
                               checked={checkedAchievements.includes(index)}
                               onChange={() => handleCheckboxChange(index)}
@@ -202,7 +202,7 @@ export const Modal = (props: ModalProps) => {
 
                             <label
                               htmlFor={goal}
-                              className="z-10 inline-flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-gray-200 bg-transparent p-3 text-gray-500 duration-200 hover:bg-gradient-to-b hover:from-transparent hover:from-30% hover:to-yellow-200 hover:text-gray-600 peer-checked:border-indigo-500 peer-checked:text-gray-600"
+                              className="z-10 inline-flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-gray-200 bg-transparent p-3 text-gray-500 duration-200 hover:bg-gradient-to-b hover:from-transparent hover:from-30% hover:to-yellow-200 hover:text-gray-600 peer-checked:border-indigo-500 peer-checked:text-gray-600 peer-focus:outline peer-focus:outline-[3px] peer-focus:outline-offset-2 peer-focus:outline-yellow-500"
                             >
                               <div className="text-3xl">
                                 {goalList[goal].emoji}
