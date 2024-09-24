@@ -2,7 +2,6 @@
 
 import React from "react";
 
-import Link from "next/link";
 import { Button } from "./Button";
 import { useAuth } from "../utilities/authContext";
 
@@ -11,20 +10,35 @@ export const CallToAction = () => {
 
   return (
     <>
-      {currentUser && (
-        <Link
-          href={"/dashboard"}
-          className="mx-auto w-full max-w-[70%] md:max-w-[50%]"
+      {currentUser ? (
+        <Button
+          full
+          dark
+          className="mx-auto flex w-full items-center justify-center gap-2 p-2 sm:max-w-[70%] md:max-w-[50%]"
+          // *** Note: use Button as an Link
+          clickHandler={() => (window.location.href = "/dashboard")}
         >
-          <Button
-            full
-            dark
-            className="flex items-center justify-center gap-2 p-2"
-          >
+          <i className="fa-solid fa-circle-arrow-right"></i>
+          <span>Go to dashboard</span>
+        </Button>
+      ) : (
+        <Button
+          full
+          dark
+          className="mx-auto flex w-full flex-wrap items-center justify-center gap-2 p-2 hover:opacity-100 sm:max-w-[70%] md:max-w-[50%]"
+          // *** Note: use button as an Link
+          clickHandler={() => (window.location.href = "/dashboard")}
+          disabled
+        >
+          <span className="flex items-center justify-center gap-2">
             <i className="fa-solid fa-circle-arrow-right"></i>
-            <span>Go to dashboard</span>
-          </Button>
-        </Link>
+            <em className="not-italic">Go to dashboard</em>
+          </span>
+
+          {!currentUser && (
+            <span className="text-xs">(Log in to get access)</span>
+          )}
+        </Button>
       )}
     </>
   );
