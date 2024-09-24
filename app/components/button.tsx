@@ -22,7 +22,7 @@ export const Button = (props: ButtonProps) => {
         dark
           ? "bg-indigo-700 text-white hover:opacity-80"
           : "text-indigo-500 hover:bg-indigo-500 hover:text-white",
-        "overflow-hidden whitespace-nowrap rounded-full border border-indigo-500 font-semibold capitalize duration-200",
+        "overflow-hidden whitespace-nowrap rounded-full border border-indigo-500 font-semibold capitalize duration-200 focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500",
         className,
         disabled &&
           "!border-gray-200 !bg-gray-200 !text-gray-500 hover:bg-gray-200 hover:text-gray-500",
