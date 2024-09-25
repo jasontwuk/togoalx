@@ -138,7 +138,21 @@ export const Modal = (props: ModalProps) => {
   return (
     <>
       <button
-        className="hover:border-amber-00 group flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white bg-gradient-to-b p-2 duration-200 hover:from-white hover:to-yellow-200 md:flex-row"
+        className={clsx(
+          "group flex flex-col items-center gap-2 rounded-lg border border-solid border-yellow-500 bg-white p-2 md:flex-row",
+
+          // *** Note: transition
+          "transition-all duration-200",
+
+          // *** Note: apply gradient on hover
+          "hover:bg-gradient-to-b hover:from-white hover:to-yellow-200",
+
+          // *** Note: add shadow to emphasize transition (because transition doesn't work on gradient bg colour)
+          "hover:shadow-md",
+
+          // *** Note: focus-visible
+          "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500",
+        )}
         type="button"
         onClick={handleOpenModal}
       >
