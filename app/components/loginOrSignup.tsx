@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { useAuth } from "../utilities/authContext";
 import { Button } from "./Button";
 import { StyledLink } from "./StyledLink";
+import { Input } from "./Input";
 
 type LoginOrSignupProps = {
   isForLogin: boolean;
@@ -65,35 +66,35 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
       </h2>
 
       {!isForLogin && (
-        <input
+        <Input
           value={name}
-          onChange={(e) => {
+          type="text"
+          placeholder="Name"
+          changeHandler={(e) => {
             setName(e.target.value);
           }}
-          type="text"
-          className="w-full rounded-full border border-solid border-gray-300 px-3 py-2 outline-none duration-200 hover:border-gray-400 focus:border-yellow-500 sm:py-3"
-          placeholder="Name"
+          className="rounded-full px-3 py-2 sm:py-3"
         />
       )}
 
-      <input
+      <Input
         value={email}
-        onChange={(e) => {
+        type="email"
+        placeholder="Email"
+        changeHandler={(e) => {
           setEmail(e.target.value);
         }}
-        type="email"
-        className="w-full rounded-full border border-solid border-gray-300 px-3 py-2 outline-none duration-200 hover:border-gray-400 focus:border-yellow-500 sm:py-3"
-        placeholder="Email"
+        className="rounded-full px-3 py-2 sm:py-3"
       />
 
-      <input
+      <Input
         value={password}
-        onChange={(e) => {
+        type="password"
+        placeholder="Password"
+        changeHandler={(e) => {
           setPassword(e.target.value);
         }}
-        type="password"
-        className="w-full rounded-full border border-solid border-gray-300 px-3 py-2 outline-none duration-200 hover:border-gray-400 focus:border-yellow-500 sm:py-3"
-        placeholder="Password"
+        className="rounded-full px-3 py-2 sm:py-3"
       />
 
       <Button

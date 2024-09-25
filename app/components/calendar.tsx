@@ -12,6 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase";
 import { DateUnit } from "./DateUnit";
+import { Input } from "./Input";
 
 type monthsType = { [key: string]: string };
 const months: monthsType = {
@@ -700,14 +701,13 @@ export const Calendar = (props: CalendarProps) => {
                   ) : (
                     <div className="flex w-full items-center justify-center gap-1">
                       <span className="">{goalList[goal].emoji}</span>
-
-                      <input
-                        type="number"
+                      <Input
                         value={targets[goal] >= 0 ? targets[goal] : "loading"}
-                        min="0"
-                        max={daysInMonth}
-                        onChange={updateTargets(goal)}
+                        type="number"
+                        changeHandler={updateTargets(goal)}
                         className="w-full rounded-md border p-2"
+                        min={0}
+                        max={daysInMonth}
                       />
                     </div>
                   )}
