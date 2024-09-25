@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "./Button";
 
 import FocusTrap from "focus-trap-react";
@@ -135,6 +135,7 @@ export const Modal = (props: ModalProps) => {
     setShowModal(false);
   }, [initialCheckedAchievements]);
 
+  // *** Note: let users use the Esc key to close the modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -148,6 +149,28 @@ export const Modal = (props: ModalProps) => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleCancelModal]);
+
+  // *** Note: make modal close on click outside
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node | null)
+      ) {
+        handleCancelModal();
+      }
+    };
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showModal, handleCancelModal]);
 
   return (
     <>
@@ -177,13 +200,16 @@ export const Modal = (props: ModalProps) => {
         <FocusTrap>
           {/* Note: modal Overlay */}
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-25"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-25 px-2"
             aria-modal="true"
             aria-hidden={!showModal}
           >
             <RemoveScroll>
               {/* Note: modal Container */}
-              <div className="relative z-[60] mx-2 flex w-[calc(100%-.0.25rem)] max-w-4xl flex-col rounded-lg bg-white p-4 shadow-lg md:min-w-[31rem]">
+              <div
+                className="relative z-[60] flex w-[calc(100%-.0.25rem)] max-w-4xl flex-col rounded-lg bg-white p-4 shadow-lg md:min-w-[31rem]"
+                ref={modalRef}
+              >
                 {/* Note: header */}
                 <div className="flex items-center justify-between gap-4 rounded-t border-b border-gray-200 pb-4">
                   <h3
