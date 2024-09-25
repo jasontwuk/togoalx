@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "./Button";
 
 import FocusTrap from "focus-trap-react";
@@ -128,12 +128,26 @@ export const Modal = (props: ModalProps) => {
     setShowModal(true);
   };
 
-  const handleCancelModal = () => {
+  const handleCancelModal = useCallback(() => {
     // *** Note: reset to original data
     setCheckedAchievements(initialCheckedAchievements);
     // *** Note: close modal
     setShowModal(false);
-  };
+  }, [initialCheckedAchievements]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleCancelModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleCancelModal]);
 
   return (
     <>
@@ -162,7 +176,11 @@ export const Modal = (props: ModalProps) => {
       {showModal && (
         <FocusTrap>
           {/* Note: modal Overlay */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-25">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-25"
+            aria-modal="true"
+            aria-hidden={!showModal}
+          >
             <RemoveScroll>
               {/* Note: modal Container */}
               <div className="relative z-[60] mx-2 flex w-[calc(100%-.0.25rem)] max-w-4xl flex-col rounded-lg bg-white p-4 shadow-lg md:min-w-[31rem]">
