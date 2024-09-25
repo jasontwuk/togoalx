@@ -395,7 +395,7 @@ export const Calendar = (props: CalendarProps) => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-4 overflow-hidden py-4 sm:gap-6 sm:py-6 md:gap-10 md:py-10">
+    <div className="flex w-full flex-col gap-4 overflow-hidden px-4 py-4 sm:gap-6 sm:px-8 sm:py-6 md:gap-10 md:py-10">
       {/* Note: goal status */}
       {!demo && (
         <div className="flex flex-col gap-2 overflow-hidden rounded-lg bg-white text-center md:grid md:grid-cols-7">

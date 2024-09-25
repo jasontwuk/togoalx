@@ -9,7 +9,7 @@ export const CallToAction = () => {
   const { currentUser } = useAuth();
 
   return (
-    <>
+    <div className="px-4 sm:px-8">
       {currentUser ? (
         <Button
           full
@@ -40,6 +40,6 @@ export const CallToAction = () => {
           )}
         </Button>
       )}
-    </>
+    </div>
   );
 };
