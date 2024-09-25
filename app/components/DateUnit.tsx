@@ -4,7 +4,7 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { Modal } from "./Modal";
 
-type DateProps = {
+type DateUnitProps = {
   currentYear: number;
   selectedYear: number;
   currentMonth: string;
@@ -19,18 +19,20 @@ type DateProps = {
   demo?: boolean;
 };
 
-const DateUnitContents = (props: DateProps) => {
+const DateUnitContents = (props: DateUnitProps) => {
   const {
     currentYear,
     selectedYear,
     currentMonth,
     selectedMonth,
+    // *** Note: selectedMonthIndex is needed for Modal component
     selectedMonthIndex,
     dateNum,
     currentDate,
     monthAchievementData,
     goalList,
     goalArr,
+    // *** Note: handleUpdateAchievements is needed for Modal component
     handleUpdateAchievements,
   } = props;
 
@@ -71,7 +73,7 @@ const DateUnitContents = (props: DateProps) => {
   );
 };
 
-export const DateUnit = (props: DateProps) => {
+export const DateUnit = (props: DateUnitProps) => {
   const {
     demo,
     ...restProps // Spread the remaining props to pass them down
