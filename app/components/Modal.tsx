@@ -165,7 +165,7 @@ export const Modal = (props: ModalProps) => {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-25">
             <RemoveScroll>
               {/* Note: modal Container */}
-              <div className="relative z-[60] mx-2 flex w-[calc(100%-.0.25rem)] max-w-3xl flex-col rounded-lg bg-white p-4 shadow-lg md:min-w-[31rem]">
+              <div className="relative z-[60] mx-2 flex w-[calc(100%-.0.25rem)] max-w-4xl flex-col rounded-lg bg-white p-4 shadow-lg md:min-w-[31rem]">
                 {/* Note: header */}
                 <div className="flex items-center justify-between gap-4 rounded-t border-b border-gray-200 pb-4">
                   <h3
@@ -179,7 +179,7 @@ export const Modal = (props: ModalProps) => {
 
                   <button
                     className={clsx(
-                      "rounded-full text-3xl leading-4 text-indigo-500 duration-200 hover:text-red-500",
+                      "flex h-8 w-8 items-center justify-center rounded-full border-2 border-red-500 text-xl leading-4 text-red-500 duration-200 hover:bg-red-500 hover:text-white",
 
                       // *** Note: focus-visible
                       "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500",
@@ -187,7 +187,7 @@ export const Modal = (props: ModalProps) => {
                     onClick={() => setShowModal(false)}
                     aria-label="Close modal"
                   >
-                    <i className="fa-solid fa-circle-xmark"></i>
+                    <i className="fa-solid fa-xmark"></i>
                   </button>
                 </div>
 
@@ -198,17 +198,17 @@ export const Modal = (props: ModalProps) => {
                   role="dialog"
                   aria-labelledby="modal-header"
                 >
-                  <fieldset className="flex flex-col items-start justify-center gap-2">
-                    <h3 className="text-lg font-medium text-indigo-700">
+                  <fieldset className="flex flex-col items-center justify-center gap-2 md:items-start">
+                    <h3 className="text-center text-lg font-medium text-indigo-700">
                       What have you accomplished?
                     </h3>
 
-                    <ul className="flex flex-wrap items-center justify-center gap-5">
+                    <ul className="flex flex-wrap items-center justify-center gap-3 lg:gap-5">
                       {goalArr.map((goal, index) => {
                         return (
                           <li
                             key={goal}
-                            className="relative flex shrink-0 items-center justify-center gap-2"
+                            className="relative flex min-w-[130px] shrink-0 items-center justify-center gap-2"
                           >
                             <input
                               type="checkbox"
@@ -223,7 +223,22 @@ export const Modal = (props: ModalProps) => {
                             <label
                               htmlFor={goal}
                               className={clsx(
-                                "z-10 inline-flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-gray-200 bg-transparent p-3 text-gray-500 duration-200 hover:bg-gradient-to-b hover:from-transparent hover:from-30% hover:to-yellow-200 hover:text-gray-600",
+                                "inline-flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-gray-200 p-2 text-center text-gray-500 lg:p-3",
+
+                                // *** Note: transition
+                                "duration-200",
+
+                                // *** Note: set z-index 10 to block the peer input above
+                                "z-10",
+
+                                // *** Note: set a transparent bg, so we won't block the fa-circle-check icon
+                                "bg-transparent",
+
+                                // *** Note: apply gradient on hover (set the transparent bg to start at 30%, so we won't block the fa-circle-check icon)
+                                "hover:bg-gradient-to-b hover:from-transparent hover:from-30% hover:to-yellow-200 hover:text-gray-600",
+
+                                // *** Note: add shadow to emphasize transition (because transition doesn't work on gradient bg colour)
+                                "hover:shadow-md",
 
                                 // *** Note: peer-checked
                                 "peer-checked:border-indigo-500 peer-checked:text-gray-600",
@@ -232,15 +247,13 @@ export const Modal = (props: ModalProps) => {
                                 "peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-yellow-500",
                               )}
                             >
-                              <div className="text-3xl">
+                              <span className="text-3xl">
                                 {goalList[goal].emoji}
-                              </div>
+                              </span>
 
-                              <div className="w-full text-lg font-semibold">
+                              <span className="capitalize text-gray-500">
                                 {goalList[goal].goal}
-                              </div>
-
-                              <p>{checkedAchievements.includes(index)}</p>
+                              </span>
                             </label>
 
                             <i className="fa-solid fa-circle-check absolute left-3 top-3 text-indigo-500 opacity-0 peer-checked:opacity-100"></i>
@@ -252,13 +265,13 @@ export const Modal = (props: ModalProps) => {
                 </div>
 
                 {/* Note: footer */}
-                <div className="flex items-center justify-end rounded-b border-t border-gray-200 pt-4">
+                <div className="flex items-center justify-center rounded-b border-t border-gray-200 pt-4 md:justify-end">
                   <div className="flex items-center justify-center gap-2">
                     <Button
                       className="flex items-center justify-center gap-2 px-4 py-2"
                       clickHandler={handleSaveModal}
                     >
-                      <i className="fa-solid fa-check-circle text-sm"></i>
+                      <i className="fa-solid fa-folder text-sm"></i>
                       Save
                     </Button>
 
@@ -266,7 +279,7 @@ export const Modal = (props: ModalProps) => {
                       className="flex items-center justify-center gap-2 border-red-500 px-4 py-2 text-red-500 hover:bg-red-500"
                       clickHandler={handleCancelModal}
                     >
-                      <i className="fa-solid fa-circle-xmark text-sm"></i>
+                      <i className="fa-solid fa-xmark text-lg"></i>
                       Cancel
                     </Button>
                   </div>
