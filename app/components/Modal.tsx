@@ -223,7 +223,7 @@ export const Modal = (props: ModalProps) => {
 
                   <button
                     className={clsx(
-                      "flex h-8 w-8 items-center justify-center rounded-full border-2 border-red-500 text-xl leading-4 text-red-500 duration-200 hover:bg-red-500 hover:text-white",
+                      "flex h-7 w-7 items-center justify-center rounded-full border-2 border-red-500 text-lg leading-4 text-red-500 duration-200 hover:bg-red-500 hover:text-white md:h-8 md:w-8 md:text-xl",
 
                       // *** Note: focus-visible
                       "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-yellow-500",
