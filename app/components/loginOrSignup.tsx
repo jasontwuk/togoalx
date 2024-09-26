@@ -12,10 +12,31 @@ type LoginOrSignupProps = {
   isForLogin: boolean;
 };
 
+interface Errors {
+  name?: string;
+  email?: string;
+  password?: string;
+  login?: string;
+}
+
+interface Touched {
+  name: boolean;
+  email: boolean;
+  password: boolean;
+}
+
 export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<Errors>({});
+  const [isFormValid, setIsFormValid] = useState(false);
+  // *** Note: track if the user has touched the inputs
+  const [touched, setTouched] = useState<Touched>({
+    name: false,
+    email: false,
+    password: false,
+  });
   const [authenticating, setAuthenticating] = useState(false);
 
   const { signup, login, currentUser } = useAuth();
@@ -43,10 +64,52 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
       }
     } catch (error) {
       console.log(error instanceof Error ? error.message : "Unknown error");
+
+      // *** Note: set up log in error message
+      if (isForLogin) {
+        const newErrors: Errors = {};
+
+        newErrors.login = "Your email or password is incorrect.";
+        setErrors(newErrors);
+      }
     } finally {
       setAuthenticating(false);
     }
   }
+
+  // *** Note: form validation
+  useEffect(() => {
+    const validateForm = () => {
+      const newErrors: Errors = {};
+
+      if (!isForLogin && !name) {
+        newErrors.name = "Name is required.";
+      }
+
+      if (!email) {
+        newErrors.email = "Email is required.";
+      } else if (!/\S+@\S+\.\S+/.test(email)) {
+        newErrors.email = "Email is invalid.";
+      }
+
+      if (!password) {
+        newErrors.password = "Password is required.";
+      } else if (password.length < 6) {
+        newErrors.password =
+          "Password must be at least 6 characters or numbers.";
+      }
+
+      setErrors(newErrors);
+      setIsFormValid(Object.keys(newErrors).length === 0);
+    };
+
+    validateForm();
+  }, [isForLogin, name, email, password]);
+
+  // *** Note: handlers to mark inputs as touched
+  const handleBlur = (field: keyof Touched) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
 
   // *** Note: when they are already logged in, redirect users back to the homepage.
   useEffect(() => {
@@ -66,51 +129,87 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
       </h2>
 
       {!isForLogin && (
+        <div className="flex w-full flex-col items-center justify-center gap-1">
+          <Input
+            value={name}
+            type="text"
+            placeholder="Name"
+            changeHandler={(e) => {
+              setName(e.target.value);
+            }}
+            onBlur={() => handleBlur("name")}
+            className="rounded-full px-3 py-2 sm:py-3"
+          />
+
+          {touched.name && errors.name && (
+            <p className="px-3 text-center text-xs text-red-500">
+              {errors.name}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="flex w-full flex-col items-center justify-center gap-1">
         <Input
-          value={name}
-          type="text"
-          placeholder="Name"
+          value={email}
+          type="email"
+          placeholder="Email"
+          onBlur={() => handleBlur("email")}
           changeHandler={(e) => {
-            setName(e.target.value);
+            setEmail(e.target.value);
           }}
           className="rounded-full px-3 py-2 sm:py-3"
         />
-      )}
 
-      <Input
-        value={email}
-        type="email"
-        placeholder="Email"
-        changeHandler={(e) => {
-          setEmail(e.target.value);
-        }}
-        className="rounded-full px-3 py-2 sm:py-3"
-      />
-
-      <Input
-        value={password}
-        type="password"
-        placeholder="Password"
-        changeHandler={(e) => {
-          setPassword(e.target.value);
-        }}
-        className="rounded-full px-3 py-2 sm:py-3"
-      />
-
-      <Button
-        clickHandler={handleSubmit}
-        className="border-2 px-3 py-2 sm:py-3"
-        full
-      >
-        {authenticating ? (
-          "Submitting"
-        ) : (
-          <p className="flex items-center justify-center gap-2">
-            <i className="fa-solid fa-circle-check"></i>
-            <span>Submit</span>
+        {touched.email && errors.email && (
+          <p className="px-3 text-center text-xs text-red-500">
+            {errors.email}
           </p>
         )}
-      </Button>
+      </div>
+
+      <div className="flex w-full flex-col items-center justify-center gap-1">
+        <Input
+          value={password}
+          type="password"
+          placeholder="Password"
+          onBlur={() => handleBlur("password")}
+          changeHandler={(e) => {
+            setPassword(e.target.value);
+          }}
+          className="rounded-full px-3 py-2 sm:py-3"
+        />
+
+        {touched.password && errors.password && (
+          <p className="px-3 text-center text-xs text-red-500">
+            {errors.password}
+          </p>
+        )}
+      </div>
+
+      <div className="flex w-full flex-col items-center justify-center gap-1">
+        <Button
+          clickHandler={handleSubmit}
+          className="border-2 px-3 py-2 sm:py-3"
+          full
+          disabled={!isFormValid}
+        >
+          {authenticating ? (
+            "Submitting"
+          ) : (
+            <p className="flex items-center justify-center gap-2">
+              <i className="fa-solid fa-circle-check"></i>
+              <span>Submit</span>
+            </p>
+          )}
+        </Button>
+
+        {errors.login && (
+          <p className="px-3 text-center text-xs text-red-500">
+            {errors.login}
+          </p>
+        )}
+      </div>
 
       <p className="text-center">
         {isForLogin ? "Don't have an account? " : "Already have an account? "}

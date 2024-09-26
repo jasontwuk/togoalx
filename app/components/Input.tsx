@@ -6,14 +6,23 @@ type InputProps = {
   type: string;
   placeholder?: string;
   changeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
   className?: string;
   min?: number;
   max?: number;
 };
 
 export const Input = (props: InputProps) => {
-  const { value, type, placeholder, changeHandler, className, min, max } =
-    props;
+  const {
+    value,
+    type,
+    placeholder,
+    changeHandler,
+    onBlur,
+    className,
+    min,
+    max,
+  } = props;
 
   return (
     <input
@@ -21,6 +30,7 @@ export const Input = (props: InputProps) => {
       type={type}
       placeholder={placeholder}
       onChange={changeHandler}
+      onBlur={onBlur}
       className={clsx(
         // *** Note: general
         "w-full border border-solid border-gray-300 duration-200",
