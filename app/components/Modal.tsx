@@ -216,7 +216,7 @@ export const Modal = (props: ModalProps) => {
             <RemoveScroll>
               {/* Note: modal Container */}
               <div
-                className="relative z-[60] flex w-[calc(100%-.0.25rem)] max-w-4xl flex-col rounded-lg bg-white p-4 shadow-lg md:min-w-[31rem]"
+                className="relative z-[60] flex w-full max-w-4xl flex-col rounded-lg bg-white p-4 shadow-lg md:min-w-[31rem]"
                 ref={modalRef}
               >
                 {/* Note: header */}
