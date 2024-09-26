@@ -56,7 +56,7 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
   }, [currentUser]);
 
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center gap-4">
+    <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center gap-4 px-4 sm:px-8">
       <h1 className="text-center text-4xl font-bold text-indigo-900 sm:text-5xl md:text-6xl">
         {isForLogin ? "Log In" : "Sign up"}
       </h1>
