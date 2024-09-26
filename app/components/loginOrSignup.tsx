@@ -29,6 +29,7 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordInputType, setPasswordInputType] = useState("password");
   const [errors, setErrors] = useState<Errors>({});
   const [isFormValid, setIsFormValid] = useState(false);
   // *** Note: track if the user has touched the inputs
@@ -111,6 +112,16 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
     setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
+  const HideOrShowPassword = () => {
+    if (passwordInputType === "password") {
+      // *** Note: show password value
+      setPasswordInputType("text");
+    } else {
+      // *** Note: hide password value
+      setPasswordInputType("password");
+    }
+  };
+
   // *** Note: when they are already logged in, redirect users back to the homepage.
   useEffect(() => {
     if (currentUser) {
@@ -169,16 +180,29 @@ export default function LoginOrSignup({ isForLogin }: LoginOrSignupProps) {
       </div>
 
       <div className="flex w-full flex-col items-center justify-center gap-1">
-        <Input
-          value={password}
-          type="password"
-          placeholder="Password"
-          onBlur={() => handleBlur("password")}
-          changeHandler={(e) => {
-            setPassword(e.target.value);
-          }}
-          className="rounded-full px-3 py-2 sm:py-3"
-        />
+        <div className="relative w-full">
+          <Input
+            value={password}
+            type={passwordInputType}
+            placeholder="Password"
+            onBlur={() => handleBlur("password")}
+            changeHandler={(e) => {
+              setPassword(e.target.value);
+            }}
+            className="rounded-full px-3 py-2 sm:py-3"
+          />
+
+          <span
+            onClick={HideOrShowPassword}
+            className="absolute right-4 top-2 flex h-5 w-5 cursor-pointer items-center justify-center sm:top-4"
+          >
+            {passwordInputType === "password" ? (
+              <i className="fa-solid fa-eye-slash"></i>
+            ) : (
+              <i className="fa-solid fa-eye absolute"></i>
+            )}
+          </span>
+        </div>
 
         {touched.password && errors.password && (
           <p className="px-3 text-center text-xs text-red-500">
