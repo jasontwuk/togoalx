@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 import { redirect } from "next/navigation";
 import { useAuth } from "../utilities/authContext";
-import { Calendar } from "./Calendarx";
+import { Calendar } from "./Calendar";
 
 export const Dashboard = () => {
   const { currentUser, loading } = useAuth();

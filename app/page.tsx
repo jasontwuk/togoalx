@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { kalam } from "./utilities/fonts";
-import { Calendar } from "./components/Calendarx";
+import { Calendar } from "./components/Calendar";
 import { CallToAction } from "./components/CallToAction";
-import { Main } from "./components/Mainx";
+import { Main } from "./components/Main";
 
 export default function Home() {
   return (

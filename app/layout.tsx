@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { nunito } from "./utilities/fonts";
 import "./utilities/globals.css";
-import { Header } from "./components/Headerx";
-import { Footer } from "./components/Footerx";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { Head } from "./head";
 import { AuthProvider } from "./utilities/authContext";
 

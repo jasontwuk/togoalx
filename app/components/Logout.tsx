@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useAuth } from "../utilities/authContext";
-import { Button } from "./Buttonx";
+import { Button } from "./Button";
 
 function Logout() {
   const { logout } = useAuth();

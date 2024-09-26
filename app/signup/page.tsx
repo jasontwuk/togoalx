@@ -1,6 +1,6 @@
 import React from "react";
-import LoginOrSignup from "../components/LoginOrSignupx";
-import { Main } from "../components/Mainx";
+import LoginOrSignup from "../components/LoginOrSignup";
+import { Main } from "../components/Main";
 
 export const metadata = {
   title: "ToGoalx ⋅ Sign up",

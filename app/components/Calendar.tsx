@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import ProgressDonutBar from "./ProgressDonutBar";
-import { Button } from "./Buttonx";
+import { Button } from "./Button";
 import clsx from "clsx";
 
 import { demoData } from "../utilities/demo";
