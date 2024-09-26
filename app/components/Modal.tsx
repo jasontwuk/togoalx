@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Button } from "./Button";
+import { Button } from "./Buttonx";
 
 import FocusTrap from "focus-trap-react";
 import { RemoveScroll } from "react-remove-scroll";

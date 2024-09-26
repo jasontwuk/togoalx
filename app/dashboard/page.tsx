@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Main } from "../components/Main";
+import { Main } from "../components/Mainx";
 import { Dashboard } from "../components/Dashboard";
 
 export const metadata = {

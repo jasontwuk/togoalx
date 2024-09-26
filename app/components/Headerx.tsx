@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import { useAuth } from "../utilities/authContext";
-import Logout from "./Logout";
+import Logout from "./Logoutx";
 
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
