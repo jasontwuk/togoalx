@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Button } from "./Button";
 
 import FocusTrap from "focus-trap-react";
@@ -36,7 +42,10 @@ export const Modal = (props: ModalProps) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const initialCheckedAchievements = monthAchievementData[dateNum] || [];
+  const initialCheckedAchievements = useMemo(
+    () => monthAchievementData[dateNum] || [],
+    [monthAchievementData, dateNum],
+  );
 
   const [checkedAchievements, setCheckedAchievements] = useState<number[]>(
     initialCheckedAchievements || [],
